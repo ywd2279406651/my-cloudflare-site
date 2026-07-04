@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>订阅工具</title>
+  <meta name="description" content="节点订阅工具导航">
+  <link rel="stylesheet" href="./assets/styles/main.css">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    /* ========== 主题变量（与全站完全一致） ========== */
+    :root {
+      --bg-mask: rgba(15, 18, 35, 0.38);
+      --card-bg: rgba(32, 36, 58, 0.38);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.78);
+      --text-muted: rgba(255, 255, 255, 0.58);
+      --accent-color: #7c3aed;
+      --item-hover-bg: rgba(255, 255, 255, 0.08);
+      --stat-bg: rgba(255, 255, 255, 0.06);
+      --title-color: #f5e6b3;
+      --divider-color: rgba(245, 230, 179, 0.25);
+      --nav-text: #ffffff;
+    }
+
+    .light-theme {
+      --bg-mask: rgba(240, 245, 255, 0.35);
+      --card-bg: rgba(255, 255, 255, 0.62);
+      --card-border: rgba(0, 0, 0, 0.06);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent-color: #6d28d9;
+      --item-hover-bg: rgba(109, 40, 217, 0.08);
+      --stat-bg: rgba(255, 255, 255, 0.55);
+      --title-color: #6d28d9;
+      --divider-color: rgba(109, 40, 217, 0.2);
+      --nav-text: #1e293b;
+    }
+
+    /* 全局基础 */
+    html, body {
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      position: relative;
+      background: url('https://picsum.photos/id/1043/1920/1080') center/cover no-repeat fixed;
+    }
+
+    /* 背景视频 */
+    .bg-video {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+      pointer-events: none;
+      filter: blur(0px) saturate(1.2);
+      -webkit-filter: blur(0px) saturate(1.2);
+      transform: scale(1.02);
+    }
+
+    /* 背景遮罩 */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--bg-mask);
+      backdrop-filter: blur(0px);
+      -webkit-backdrop-filter: blur(0px);
+      z-index: -1;
+      transition: background 0.3s ease;
+    }
+
+    /* 主题切换按钮 */
+    .theme-toggle {
+      background: var(--card-bg) !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--text-primary) !important;
+      width: 36px !important;
+      height: 36px !important;
+      border-radius: 10px !important;
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1rem !important;
+      transition: all 0.3s ease !important;
+      margin-left: 16px !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.08);
+      border-color: var(--accent-color) !important;
+    }
+
+    /* 导航栏适配 */
+    .navbar {
+      background: var(--card-bg) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border-bottom: 1px solid var(--card-border) !important;
+    }
+    .light-theme .nav-logo,
+    .light-theme .nav-links a {
+      color: var(--nav-text) !important;
+    }
+    .light-theme .nav-links a.active {
+      color: var(--accent-color) !important;
+    }
+
+    /* 主容器宽度 */
+    .main-wrap {
+      max-width: 1280px !important;
+      width: 100% !important;
+      margin: 0 auto !important;
+      padding: 30px 20px !important;
+    }
+
+    /* 通用毛玻璃卡片 */
+    .glass-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: var(--card-shadow);
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* 页面标题 */
+    .page-title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      text-align: center;
+      color: var(--title-color);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .page-desc {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 36px;
+      font-size: 1.05rem;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed var(--divider-color);
+    }
+
+    /* 订阅卡片网格 */
+    .subscribe-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    .subscribe-card {
+      background: var(--stat-bg);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 28px 24px;
+      border: 1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .subscribe-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent-color);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--divider-color);
+    }
+    .card-icon {
+      font-size: 1.8rem;
+    }
+    .card-name {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--title-color);
+    }
+
+    .card-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex: 1;
+    }
+
+    .card-link {
+      display: block;
+      width: 100%;
+      padding: 12px 20px;
+      text-align: center;
+      background: var(--accent-color);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+    .card-link:hover {
+      filter: brightness(1.15);
+      transform: translateY(-2px);
+    }
+
+    /* 返回按钮 */
+    .back-btn {
+      display: block;
+      width: fit-content;
+      margin: 0 auto;
+      padding: 12px 30px;
+      background: var(--stat-bg);
+      backdrop-filter: blur(8px);
+      color: var(--text-primary);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.25s ease;
+    }
+    .back-btn:hover {
+      background: var(--item-hover-bg);
+      border-color: var(--accent-color);
+      transform: translateY(-2px);
+    }
+
+    /* 响应式 */
+    @media (max-width: 650px) {
+      .page-title { font-size: 1.8rem; }
+      .subscribe-grid { gap: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景视频 -->
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="./assets/zhuyetu/LOOP.mp4" type="video/mp4">
+  </video>
+
+  <!-- 顶部导航 -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">⚡ CF Site</div>
+      <nav class="nav-links">
+        <a href="/index.html">首页</a>
+        <a href="/about.html">关于</a>
+        <a href="/links.html">链接收藏</a>
+        <a href="/gallery.html">图库</a>
+        <a href="/subscribe.html" class="active">订阅工具</a>
+        <a href="/api/hello">API 测试</a>
+      </nav>
+      <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <main class="main-wrap">
+    <div class="glass-card">
+      <h1 class="page-title">📡 订阅工具导航</h1>
+      <div class="page-desc">✦ 节点订阅管理工具 · 点击直达对应面板 ✦</div>
+
+      <div class="subscribe-grid">
+        <!-- 订阅1 -->
+        <div class="subscribe-card">
+          <div class="card-header">
+            <span class="card-icon">📶</span>
+            <div class="card-name">订阅中心</div>
+          </div>
+          <p class="card-desc">多客户端支持、智能优选、一键生成配置，支持自定义地区与协议</p>
+          <a href="https://bianhaiyan.dpdns.org/ye" target="_blank" class="card-link">前往订阅面板</a>
+        </div>
+
+        <!-- 订阅2 -->
+        <div class="subscribe-card">
+          <div class="card-header">
+            <span class="card-icon">🔗</span>
+            <div class="card-name">VLESS 节点订阅</div>
+          </div>
+          <p class="card-desc">Cloudflare Workers 节点订阅，支持多客户端订阅链接一键导入</p>
+          <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f3" target="_blank" class="card-link">前往节点页面</a>
+        </div>
+      </div>
+
+      <a href="/index.html" class="back-btn">← 返回首页</a>
+    </div>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
+  </footer>
+
+  <script type="module" src="./js/main.js"></script>
+  <script>
+    // 主题切换（与全站同步）
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlEl = document.documentElement;
+    const savedTheme = localStorage.getItem('site-theme');
+    if (savedTheme === 'light') {
+      htmlEl.classList.add('light-theme');
+      themeToggle.textContent = '☀️';
+    } else {
+      themeToggle.textContent = '🌙';
+    }
+    themeToggle.addEventListener('click', () => {
+      htmlEl.classList.toggle('light-theme');
+      const isLight = htmlEl.classList.contains('light-theme');
+      themeToggle.textContent = isLight ? '☀️' : '🌙';
+      localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>
