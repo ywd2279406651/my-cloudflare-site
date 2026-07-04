@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>关于站点</title>
-  <meta name="description" content="站点说明与技术架构介绍">
   <link rel="stylesheet" href="./assets/styles/main.css">
   <link rel="icon" href="/favicon.ico">
   <style>
-    /* ========== 主题变量（全站统一） ========== */
     :root {
       --bg-mask: rgba(15, 18, 35, 0.38);
       --card-bg: rgba(32, 36, 58, 0.38);
@@ -24,7 +25,6 @@
       --divider-color: rgba(245, 230, 179, 0.25);
       --nav-text: #ffffff;
     }
-
     .light-theme {
       --bg-mask: rgba(240, 245, 255, 0.35);
       --card-bg: rgba(255, 255, 255, 0.62);
@@ -40,22 +40,16 @@
       --divider-color: rgba(109, 40, 217, 0.2);
       --nav-text: #1e293b;
     }
-
-    /* 全局基础 */
     html, body {
       min-height: 100vh;
       margin: 0;
       padding: 0;
       color: var(--text-primary);
-      transition: color 0.3s ease;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      position: relative;
       background: url('https://picsum.photos/id/1043/1920/1080') center/cover no-repeat fixed;
+      position: relative;
     }
-
-    /* 背景视频 */
     .bg-video {
       position: fixed;
       inset: 0;
@@ -63,174 +57,47 @@
       height: 100%;
       object-fit: cover;
       z-index: -2;
-      pointer-events: none;
-      filter: blur(0px) saturate(1.2);
-      -webkit-filter: blur(0px) saturate(1.2);
-      transform: scale(1.02);
     }
-
-    /* 背景遮罩 */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background: var(--bg-mask);
-      backdrop-filter: blur(0px);
-      -webkit-backdrop-filter: blur(0px);
       z-index: -1;
-      transition: background 0.3s ease;
     }
-
-    /* 主题切换按钮 */
-    .theme-toggle {
-      background: var(--card-bg) !important;
-      border: 1px solid var(--card-border) !important;
-      color: var(--text-primary) !important;
-      width: 36px !important;
-      height: 36px !important;
-      border-radius: 10px !important;
-      cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      font-size: 1rem !important;
-      transition: all 0.3s ease !important;
-      margin-left: 16px !important;
-      flex-shrink: 0 !important;
-      padding: 0 !important;
-    }
-    .theme-toggle:hover {
-      transform: scale(1.08);
-      border-color: var(--accent-color) !important;
-    }
-
-    /* 导航栏适配 */
     .navbar {
-      background: var(--card-bg) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      border-bottom: 1px solid var(--card-border) !important;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
     }
-    .light-theme .nav-logo,
-    .light-theme .nav-links a {
-      color: var(--nav-text) !important;
+    .light-theme .nav-logo, .light-theme .nav-links a {color: var(--nav-text);}
+    .light-theme .nav-links a.active {color: var(--accent-color);}
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-primary);
+      width:36px;height:36px;border-radius:10px;cursor:pointer;
     }
-    .light-theme .nav-links a.active {
-      color: var(--accent-color) !important;
-    }
-
-    /* 主容器 */
-    .main-wrap {
-      max-width: 1000px !important;
-      width: 100% !important;
-      margin: 0 auto !important;
-      padding: 30px 20px !important;
-    }
-
-    /* 通用毛玻璃卡片 */
+    .main-wrap {max-width:1000px;margin:0 auto;padding:30px 20px;}
     .glass-card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px) saturate(130%);
-      -webkit-backdrop-filter: blur(12px) saturate(130%);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 32px;
-      box-shadow: var(--card-shadow);
-      transition: background 0.3s ease, border-color 0.3s ease;
-      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+      border:1px solid var(--card-border);
+      border-radius:18px;padding:32px;box-shadow:var(--card-shadow);
     }
-
-    /* 页面标题 */
-    .page-title {
-      font-size: 2.2rem;
-      font-weight: 600;
-      text-align: center;
-      color: var(--title-color);
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-    .page-desc {
-      text-align: center;
-      color: var(--text-secondary);
-      margin-bottom: 36px;
-      font-size: 1.05rem;
-      padding-bottom: 20px;
-      border-bottom: 1px dashed var(--divider-color);
-    }
-
-    /* 内容区块 */
-    .about-section {
-      margin-bottom: 28px;
-    }
-    .section-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--title-color);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-content {
-      color: var(--text-secondary);
-      line-height: 1.8;
-      font-size: 0.98rem;
-    }
-    .section-content ul {
-      padding-left: 20px;
-      margin: 8px 0;
-    }
-    .section-content li {
-      margin-bottom: 6px;
-    }
-
-    /* 技术栈标签 */
-    .tech-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .tech-tag {
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      color: #fff;
-      font-weight: 500;
-      background: var(--accent-color);
-    }
-
-    /* 返回按钮 */
-    .back-btn {
-      display: block;
-      width: fit-content;
-      margin: 0 auto;
-      padding: 12px 30px;
-      background: var(--stat-bg);
-      backdrop-filter: blur(8px);
-      color: var(--text-primary);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.25s ease;
-    }
-    .back-btn:hover {
-      background: var(--item-hover-bg);
-      border-color: var(--accent-color);
-      transform: translateY(-2px);
-    }
+    .page-title {font-size:2.2rem;text-align:center;color:var(--title-color);margin-bottom:10px;}
+    .page-desc {text-align:center;color:var(--text-secondary);margin-bottom:36px;padding-bottom:20px;border-bottom:1px dashed var(--divider-color);}
+    .section-title {font-size:1.25rem;color:var(--title-color);margin:28px 0 12px;display:flex;gap:8px;align-items:center;}
+    .section-content {color:var(--text-secondary);line-height:1.8;}
+    .tech-list {display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;}
+    .tech-tag {padding:6px 16px;border-radius:20px;background:var(--accent-color);color:#fff;font-size:0.85rem;}
+    .back-btn {display:block;margin:0 auto;padding:12px 30px;background:var(--stat-bg);border:1px solid var(--card-border);border-radius:12px;text-decoration:none;color:var(--text-primary);text-align:center;}
   </style>
 </head>
 <body>
-  <!-- 背景视频 -->
   <video class="bg-video" autoplay muted loop playsinline>
-    <source src="./assets/zhuyetu/LOOP.mp4" type="video/mp4">
+    <source src="./assets/zhuyetu/LOOP.mp4">
   </video>
-
-  <!-- 顶部导航（已加订阅工具入口） -->
   <header class="navbar">
     <div class="nav-container">
       <div class="nav-logo">⚡ CF Site</div>
@@ -242,88 +109,30 @@
         <a href="/subscribe.html">订阅工具</a>
         <a href="/api/hello">API 测试</a>
       </nav>
-      <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
+      <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
   </header>
-
-  <!-- 主内容 -->
   <main class="main-wrap">
     <div class="glass-card">
       <h1 class="page-title">ℹ️ 关于本站</h1>
-      <div class="page-desc">✦ 站点架构、技术栈与功能说明 ✦</div>
-
-      <div class="about-section">
-        <div class="section-title">📌 项目简介</div>
-        <div class="section-content">
-          <p>这是一个基于 Vite 构建、托管在 Cloudflare Pages 上的纯静态个人站点，采用无服务器架构，零运维成本，代码推送自动部署。全站采用玻璃拟态设计风格，支持明暗双主题一键切换。</p>
+      <div class="page-desc">站点架构与功能说明</div>
+      <div class="section-title">📌 项目简介</div>
+      <div class="section-content">
+      基于 Vite 构建，部署在 Cloudflare Pages 全球边缘网络，纯静态无服务器架构，一键推送自动部署。全站玻璃拟态UI，支持明暗主题切换。
+      </div>
+      <div class="section-title">🛠️ 技术栈</div>
+      <div class="section-content">
+        <div class="tech-list">
+          <span class="tech-tag">HTML5</span>
+          <span class="tech-tag">CSS3</span>
+          <span class="tech-tag">JS</span>
+          <span class="tech-tag">Vite</span>
+          <span class="tech-tag">Cloudflare Pages</span>
         </div>
       </div>
-
-      <div class="about-section">
-        <div class="section-title">🛠️ 技术栈</div>
-        <div class="section-content">
-          <div class="tech-list">
-            <span class="tech-tag">HTML5</span>
-            <span class="tech-tag">CSS3</span>
-            <span class="tech-tag">原生 JavaScript</span>
-            <span class="tech-tag">Vite</span>
-            <span class="tech-tag">Cloudflare Pages</span>
-            <span class="tech-tag">Pages Functions</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="about-section">
-        <div class="section-title">📁 功能模块</div>
-        <div class="section-content">
-          <ul>
-            <li><strong>链接收藏舱</strong>：分类管理常用网址，下拉选择一键跳转</li>
-            <li><strong>图片图库</strong>：响应式瀑布流展示，点击查看大图</li>
-            <li><strong>订阅工具导航</strong>：节点订阅面板快速入口</li>
-            <li><strong>API 测试接口</strong>：基于 Pages Functions 的轻量边缘 API 演示</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="about-section">
-        <div class="section-title">⚡ 部署特性</div>
-        <div class="section-content">
-          <ul>
-            <li>全球边缘节点加速，国内访问速度优秀</li>
-            <li>Git 推送自动触发构建部署，无需手动操作</li>
-            <li>零服务器运维，免费额度满足个人使用</li>
-            <li>支持自定义域名、HTTPS 自动证书</li>
-          </ul>
-        </div>
-      </div>
-
-      <a href="/index.html" class="back-btn">← 返回首页</a>
-    </div>
-  </main>
-
-  <!-- 页脚 -->
-  <footer class="footer">
-    <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
-  </footer>
-
-  <script type="module" src="./js/main.js"></script>
-  <script>
-    // 主题切换（全站同步）
-    const themeToggle = document.getElementById('themeToggle');
-    const htmlEl = document.documentElement;
-    const savedTheme = localStorage.getItem('site-theme');
-    if (savedTheme === 'light') {
-      htmlEl.classList.add('light-theme');
-      themeToggle.textContent = '☀️';
-    } else {
-      themeToggle.textContent = '🌙';
-    }
-    themeToggle.addEventListener('click', () => {
-      htmlEl.classList.toggle('light-theme');
-      const isLight = htmlEl.classList.contains('light-theme');
-      themeToggle.textContent = isLight ? '☀️' : '🌙';
-      localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
-    });
-  </script>
-</body>
-</html>
+      <div class="section-title">📁 功能模块</div>
+      <div class="section-content">
+        <ul>
+          <li>链接收藏：网址分类导航</li>
+          <li>图片图库：响应式图集</li>
+          <li>订阅面板（带密码验证）</li>
