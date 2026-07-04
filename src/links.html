@@ -159,7 +159,7 @@
       border-bottom: 1px dashed var(--divider-color);
     }
 
-    /* 链接卡片网格（保留原有两卡片布局） */
+    /* 链接卡片网格 */
     .card-collection {
       display: flex;
       flex-wrap: wrap;
@@ -316,6 +316,7 @@
         <a href="/about.html">关于</a>
         <a href="/links.html" class="active">链接收藏</a>
         <a href="/gallery.html">图库</a>
+        <a href="/subscribe.html">订阅工具</a>
         <a href="/api/hello">API 测试</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
@@ -329,7 +330,7 @@
       <div class="page-desc">✦ 两个独立保存库 · 挑选链接一键抵达 ✦</div>
 
       <div class="card-collection">
-        <!-- 工作工具集卡片（原有内容完整保留） -->
+        <!-- 工作工具集卡片（已移除订阅链接） -->
         <div class="link-card">
           <div class="card-title">
             <span>📁</span> 工作·工具集
@@ -347,7 +348,7 @@
           </div>
         </div>
 
-        <!-- 生活灵感库卡片（原有内容完整保留） -->
+        <!-- 生活灵感库卡片 -->
         <div class="link-card">
           <div class="card-title">
             <span>📚</span> 生活·灵感库
@@ -378,7 +379,7 @@
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // 原有跳转逻辑完整保留
+    // 原有跳转逻辑
     (function() {
       const openButtons = document.querySelectorAll('.open-btn');
       openButtons.forEach(btn => {
@@ -401,7 +402,7 @@
       });
     })();
 
-    // 主题切换（与首页全站同步）
+    // 主题切换（全站同步）
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
     const savedTheme = localStorage.getItem('site-theme');
