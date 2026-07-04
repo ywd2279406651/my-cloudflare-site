@@ -246,6 +246,72 @@
       transform: translateY(-2px);
     }
 
+    /* 密码弹窗样式 */
+    .password-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-box {
+      width: 90%;
+      max-width: 420px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .modal-title {
+      font-size: 1.5rem;
+      color: var(--title-color);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pwd-input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      background: var(--stat-bg);
+      color: var(--text-primary);
+      font-size: 1rem;
+      outline: none;
+      margin-bottom: 16px;
+    }
+    .pwd-input:focus {
+      border-color: var(--accent-color);
+    }
+    .modal-btn {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: none;
+      background: var(--accent-color);
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .modal-btn:hover {
+      filter: brightness(1.1);
+    }
+    .tip-text {
+      text-align: center;
+      margin-top:12px;
+      font-size:0.85rem;
+      color:#ff7777;
+      display:none;
+    }
+    .content-wrap {
+      display: none;
+    }
+
     /* 响应式 */
     @media (max-width: 650px) {
       .page-title { font-size: 1.8rem; }
@@ -254,92 +320,161 @@
   </style>
 </head>
 <body>
-  <!-- 背景视频 -->
-  <video class="bg-video" autoplay muted loop playsinline>
-    <source src="./assets/zhuyetu/LOOP.mp4" type="video/mp4">
-  </video>
-
-  <!-- 顶部导航 -->
-  <header class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">⚡ CF Site</div>
-      <nav class="nav-links">
-        <a href="/index.html">首页</a>
-        <a href="/about.html">关于</a>
-        <a href="/links.html">链接收藏</a>
-        <a href="/gallery.html">图库</a>
-        <a href="/subscribe.html" class="active">订阅工具</a>
-        <a href="/api/hello">API 测试</a>
-      </nav>
-      <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
+  <!-- 密码弹窗 -->
+  <div class="password-modal" id="pwdModal">
+    <div class="modal-box">
+      <h2 class="modal-title">🔒 访问验证</h2>
+      <input class="pwd-input" id="pwdInput" type="password" placeholder="请输入访问密码" autocomplete="off">
+      <button class="modal-btn" id="confirmBtn">确认解锁</button>
+      <div class="tip-text" id="errTip">密码错误，请重新输入</div>
     </div>
-  </header>
+  </div>
 
-  <!-- 主内容 -->
-  <main class="main-wrap">
-    <div class="glass-card">
-      <h1 class="page-title">📡 订阅工具导航</h1>
-      <div class="page-desc">✦ 节点订阅管理工具合集 · 点击直达对应面板 ✦</div>
+  <!-- 页面主体内容（默认隐藏，密码正确才显示） -->
+  <div class="content-wrap" id="pageContent">
+    <!-- 背景视频 -->
+    <video class="bg-video" autoplay muted loop playsinline>
+      <source src="./assets/zhuyetu/LOOP.mp4" type="video/mp4">
+    </video>
 
-      <div class="subscribe-grid">
-        <!-- 订阅1 -->
-        <div class="subscribe-card">
-          <div class="card-header">
-            <span class="card-icon">📶</span>
-            <div class="card-name">订阅中心主站</div>
-          </div>
-          <p class="card-desc">多客户端支持、智能优选、一键生成配置，支持自定义地区与协议</p>
-          <a href="https://bianhaiyan.dpdns.org/ye" target="_blank" class="card-link">前往订阅面板</a>
-        </div>
-
-        <!-- 订阅2 -->
-        <div class="subscribe-card">
-          <div class="card-header">
-            <span class="card-icon">🔗</span>
-            <div class="card-name">VLESS 节点订阅页</div>
-          </div>
-          <p class="card-desc">Cloudflare Workers 节点订阅，支持多客户端订阅链接一键导入</p>
-          <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f3" target="_blank" class="card-link">前往节点页面</a>
-        </div>
-
-        <!-- 订阅3（新增） -->
-        <div class="subscribe-card">
-          <div class="card-header">
-            <span class="card-icon">⚙️</span>
-            <div class="card-name">Pages 管理后台</div>
-          </div>
-          <p class="card-desc">由 edgetunnel 驱动的订阅管理后台，支持节点配置与规则管理</p>
-          <a href="https://bianhaiyan.pages.dev/admin" target="_blank" class="card-link">前往管理后台</a>
-        </div>
+    <!-- 顶部导航 -->
+    <header class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">⚡ CF Site</div>
+        <nav class="nav-links">
+          <a href="/index.html">首页</a>
+          <a href="/about.html">关于</a>
+          <a href="/links.html">链接收藏</a>
+          <a href="/gallery.html">图库</a>
+          <a href="/subscribe.html" class="active">订阅工具</a>
+          <a href="/api/hello">API 测试</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
       </div>
+    </header>
 
-      <a href="/index.html" class="back-btn">← 返回首页</a>
-    </div>
-  </main>
+    <!-- 主内容 -->
+    <main class="main-wrap">
+      <div class="glass-card">
+        <h1 class="page-title">📡 订阅工具导航</h1>
+        <div class="page-desc">✦ 节点订阅管理工具合集 · 点击直达对应面板 ✦</div>
 
-  <!-- 页脚 -->
-  <footer class="footer">
-    <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
-  </footer>
+        <div class="subscribe-grid">
+          <!-- 订阅1 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">📶</span>
+              <div class="card-name">订阅中心主站</div>
+            </div>
+            <p class="card-desc">多客户端支持、智能优选、一键生成配置，支持自定义地区与协议</p>
+            <a href="https://bianhaiyan.dpdns.org" target="_blank" class="card-link">前往订阅面板</a>
+          </div>
+
+          <!-- 订阅2 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">🔗</span>
+              <div class="card-name">VLESS 节点订阅页</div>
+            </div>
+            <p class="card-desc">Cloudflare Workers 节点订阅，支持多客户端订阅链接一键导入</p>
+            <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f" target="_blank" class="card-link">前往节点页面</a>
+          </div>
+
+          <!-- 订阅3（新增） -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">⚙️</span>
+              <div class="card-name">Pages 管理后台</div>
+            </div>
+            <p class="card-desc">由 edgetunnel 驱动的订阅管理后台，支持节点配置与规则管理</p>
+            <a href="https://bianhaiyan.pages.dev/admin" target="_blank" class="card-link">前往管理后台</a>
+          </div>
+        </div>
+
+        <a href="/index.html" class="back-btn">← 返回首页</a>
+      </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+      <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
+    </footer>
+  </div>
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // 主题切换（与全站同步）
-    const themeToggle = document.getElementById('themeToggle');
-    const htmlEl = document.documentElement;
-    const savedTheme = localStorage.getItem('site-theme');
-    if (savedTheme === 'light') {
-      htmlEl.classList.add('light-theme');
-      themeToggle.textContent = '☀️';
-    } else {
-      themeToggle.textContent = '🌙';
+    // ========== 密码配置区，自行修改这里的密码 ==========
+    const PASSWORD = "kskblzdjd";
+    const STORAGE_KEY = "subscribe_auth";
+    const VALID_HOUR = 24; // 验证有效期24小时
+
+    const pwdModal = document.getElementById('pwdModal');
+    const pageContent = document.getElementById('pageContent');
+    const pwdInput = document.getElementById('pwdInput');
+    const confirmBtn = document.getElementById('confirmBtn');
+    const errTip = document.getElementById('errTip');
+
+    // 校验本地存储是否已授权
+    function checkAuth() {
+      const authStr = localStorage.getItem(STORAGE_KEY);
+      if (!authStr) return false;
+      const authData = JSON.parse(authStr);
+      const now = Date.now();
+      const expire = authData.time + VALID_HOUR * 60 * 60 * 1000;
+      return now < expire;
     }
-    themeToggle.addEventListener('click', () => {
-      htmlEl.classList.toggle('light-theme');
-      const isLight = htmlEl.classList.contains('light-theme');
-      themeToggle.textContent = isLight ? '☀️' : '🌙';
-      localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
-    });
+
+    // 解锁页面
+    function unlockPage() {
+      pwdModal.style.display = "none";
+      pageContent.style.display = "block";
+    }
+
+    // 验证密码
+    function verifyPwd() {
+      errTip.style.display = "none";
+      const inputVal = pwdInput.value.trim();
+      if (inputVal === PASSWORD) {
+        // 保存授权记录
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: Date.now() }));
+        unlockPage();
+      } else {
+        errTip.style.display = "block";
+        pwdInput.value = "";
+        pwdInput.focus();
+      }
+    }
+
+    // 页面加载判断权限
+    window.addEventListener('DOMContentLoaded', () => {
+      // 主题切换逻辑
+      const themeToggle = document.getElementById('themeToggle');
+      const htmlEl = document.documentElement;
+      const savedTheme = localStorage.getItem('site-theme');
+      if (savedTheme === 'light') {
+        htmlEl.classList.add('light-theme');
+        themeToggle.textContent = '☀️';
+      } else {
+        themeToggle.textContent = '🌙';
+      }
+      themeToggle.addEventListener('click', () => {
+        htmlEl.classList.toggle('light-theme');
+        const isLight = htmlEl.classList.contains('light-theme');
+        themeToggle.textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
+      });
+
+      // 密码验证逻辑
+      if (checkAuth()) {
+        unlockPage();
+      }
+      // 点击确认按钮
+      confirmBtn.addEventListener('click', verifyPwd);
+      // 回车确认
+      pwdInput.addEventListener('keydown', (e) => {
+        if (e.key === "Enter") verifyPwd();
+      })
+    })
   </script>
 </body>
 </html>
