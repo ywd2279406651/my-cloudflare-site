@@ -8,67 +8,78 @@
   <link rel="stylesheet" href="./assets/styles/main.css">
   <link rel="icon" href="/favicon.ico">
   <style>
-    /* 新增：最近在做 区域样式，玻璃拟态风格与全站统一 */
-    .recent-projects {
-      margin-top: 60px;
+    /* 最近使用区域样式 */
+    .recent-section {
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 24px;
+      text-align: left;
     }
 
     .recent-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 24px;
-      margin-top: 30px;
     }
 
     .recent-card {
-      background: rgba(20, 28, 50, 0.6);
+      background: rgba(10, 15, 30, 0.6);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .recent-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(255, 215, 100, 0.35);
-      box-shadow: 0 28px 45px -15px rgba(0, 0, 0, 0.6);
+      transform: translateY(-6px);
+      border-color: rgba(255, 215, 100, 0.4);
+      box-shadow: 0 28px 50px rgba(0, 0, 0, 0.5);
     }
 
-    .recent-card h3 {
+    .card-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .card-title {
       font-size: 1.25rem;
-      color: #ffecbb;
-      margin-bottom: 12px;
       font-weight: 600;
-    }
-
-    .recent-card p {
-      color: rgba(240, 240, 240, 0.8);
-      line-height: 1.6;
-      font-size: 0.95rem;
-      margin-bottom: 18px;
-    }
-
-    .recent-card .card-tag {
-      display: inline-block;
-      padding: 4px 12px;
-      background: rgba(255, 236, 187, 0.15);
-      border-radius: 20px;
-      font-size: 0.8rem;
       color: #ffecbb;
     }
 
-    /* 简化英雄区样式适配 */
-    .hero {
-      text-align: center;
-      padding: 40px 0 20px;
+    .card-desc {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      line-height: 1.5;
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 650px) {
+      .recent-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        font-size: 1.3rem;
+      }
     }
   </style>
 </head>
 <body>
-  <!-- 顶部玻璃导航（完整保留） -->
+  <!-- 顶部玻璃导航 -->
   <header class="navbar">
     <div class="nav-container">
       <div class="nav-logo">⚡ CF Site</div>
@@ -84,40 +95,25 @@
 
   <!-- 主容器 -->
   <main class="main-wrap">
-    <!-- 简化英雄区：移除宣传文案，保留核心功能入口 -->
-    <section class="hero">
-      <span class="hero-badge">✨ 个人导航站</span>
-      <h1>欢迎来到我的站点</h1>
-      <div class="hero-buttons">
-        <a href="/gallery.html" class="btn btn-primary">🖼️ 进入图库</a>
-        <a href="/links.html" class="btn btn-outline">🔖 链接收藏</a>
-        <a href="/about.html" class="btn btn-outline">关于本站</a>
-      </div>
-    </section>
-
-    <!-- 新增：最近在做 区域（双玻璃拟态卡片） -->
-    <section class="recent-projects">
-      <h2 class="section-title">最近在做</h2>
-      <p class="section-desc">✦ 记录当前项目与动态 ✦</p>
-      
+    <!-- 最近使用区域 -->
+    <section class="recent-section">
+      <h2 class="section-title">最近使用</h2>
       <div class="recent-grid">
-        <!-- 卡片1：可自行修改标题、描述、标签 -->
-        <div class="recent-card">
-          <h3>📸 个人图库搭建</h3>
-          <p>基于 Vite + Cloudflare Pages 搭建个人图片收藏库，响应式网格布局，全球 CDN 加速访问。</p>
-          <span class="card-tag">进行中</span>
-        </div>
-        <!-- 卡片2：可自行修改标题、描述、标签 -->
-        <div class="recent-card">
-          <h3>🔗 优质链接整理</h3>
-          <p>持续收集开发工具、设计资源与实用网站，分类归档，打造个人专属导航书签库。</p>
-          <span class="card-tag">长期更新</span>
-        </div>
+        <a href="/links.html" class="recent-card">
+          <div class="card-icon">🔖</div>
+          <div class="card-title">链接收藏舱</div>
+          <div class="card-desc">管理和查看收藏的优质链接资源</div>
+        </a>
+        <a href="/gallery.html" class="recent-card">
+          <div class="card-icon">🖼️</div>
+          <div class="card-title">图片图库</div>
+          <div class="card-desc">浏览收藏的精选图片合集</div>
+        </a>
       </div>
     </section>
   </main>
 
-  <!-- 页脚（完整保留） -->
+  <!-- 页脚 -->
   <footer class="footer">
     <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
   </footer>
