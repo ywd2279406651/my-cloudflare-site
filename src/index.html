@@ -68,26 +68,27 @@
 
     /* 主题切换按钮 */
     .theme-toggle {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-primary);
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+      background: var(--card-bg) !important;
+      border: 1px solid var(--card-border) !important;
+      color: var(--text-primary) !important;
+      width: 36px !important;
+      height: 36px !important;
+      border-radius: 10px !important;
       cursor: pointer;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      margin-left: 16px;
-      flex-shrink: 0;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1rem !important;
+      transition: all 0.3s ease !important;
+      margin-left: 16px !important;
+      flex-shrink: 0 !important;
+      padding: 0 !important;
     }
     .theme-toggle:hover {
       transform: scale(1.08);
-      border-color: var(--accent-color);
+      border-color: var(--accent-color) !important;
     }
 
     /* 导航栏适配主题 */
@@ -98,19 +99,30 @@
       border-bottom: 1px solid var(--card-border) !important;
     }
 
-    /* 首页单独放宽主容器宽度，给双栏留出空间，不影响其他页面 */
+    /* ========== 核心修复：强制覆盖全局样式，确保双栏生效 ========== */
     .main-wrap {
       max-width: 1280px !important;
-      width: 100%;
+      width: 100% !important;
+      display: block !important;
+      flex-direction: unset !important;
+      margin: 0 auto !important;
+      padding: 0 20px !important;
     }
 
-    /* ========== 核心：左右双栏横向布局 ========== */
     .home-layout {
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 24px;
-      padding: 30px 0;
-      align-items: start;
+      display: grid !important;
+      grid-template-columns: 360px 1fr !important;
+      gap: 24px !important;
+      padding: 30px 0 !important;
+      align-items: start !important;
+      width: 100% !important;
+    }
+
+    .left-sidebar,
+    .right-content {
+      display: block !important;
+      width: 100% !important;
+      flex: unset !important;
     }
 
     /* 通用毛玻璃卡片 */
@@ -286,7 +298,7 @@
     /* 响应式：屏幕小于900px自动上下堆叠 */
     @media (max-width: 900px) {
       .home-layout {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
       }
     }
   </style>
@@ -314,7 +326,7 @@
       <!-- 卡片1：站点信息 -->
       <div class="glass-card">
         <div class="profile-header">
-          <img src="./assets/images/touxiang.jpeg" alt="站点头像" class="profile-avatar">
+          <img src="./assets/images/touxiang.jpg" alt="站点头像" class="profile-avatar">
           <div class="profile-name">My Cloudflare Site</div>
           <div class="profile-title">Vite + 无服务器静态站点</div>
           <a href="https://github.com/ywd2279406651/my-cloudflare-site" target="_blank" class="github-btn">
