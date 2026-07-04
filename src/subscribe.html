@@ -357,7 +357,7 @@
     <main class="main-wrap">
       <div class="glass-card">
         <h1 class="page-title">📡 订阅工具导航</h1>
-        <div class="page-desc">✦ 节点订阅管理工具合集 · 点击直达对应面板 ✦</div>
+        <div class="page-desc">✦ 节点订阅管理工具 + 客户端下载合集 ✦</div>
 
         <div class="subscribe-grid">
           <!-- 订阅1 -->
@@ -380,7 +380,7 @@
             <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f" target="_blank" class="card-link">前往节点页面</a>
           </div>
 
-          <!-- 订阅3（新增） -->
+          <!-- 订阅3 -->
           <div class="subscribe-card">
             <div class="card-header">
               <span class="card-icon">⚙️</span>
@@ -388,6 +388,26 @@
             </div>
             <p class="card-desc">由 edgetunnel 驱动的订阅管理后台，支持节点配置与规则管理</p>
             <a href="https://bianhaiyan.pages.dev/admin" target="_blank" class="card-link">前往管理后台</a>
+          </div>
+
+          <!-- 4：ClashMetaForAndroid 手机端 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">📱</span>
+              <div class="card-name">ClashMetaForAndroid</div>
+            </div>
+            <p class="card-desc">安卓手机专用客户端，Clash Meta内核，支持全类型订阅链接导入</p>
+            <a href="https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.30" target="_blank" class="card-link">Github下载页</a>
+          </div>
+
+          <!-- 5：v2rayN Windows客户端 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">💻</span>
+              <div class="card-name">v2rayN Windows</div>
+            </div>
+            <p class="card-desc">Windows桌面客户端，支持VLESS/Vmess/Trojan等协议，一键导入订阅</p>
+            <a href="https://github.com/2dust/v2rayN/releases/download/7.23.1/v2rayN-windows-64.zip" target="_blank" class="card-link">直接下载安装包</a>
           </div>
         </div>
 
@@ -403,10 +423,10 @@
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // ========== 密码配置区，自行修改这里的密码 ==========
+    // ========== 密码配置区 ==========
     const PASSWORD = "kskblzdjd";
     const STORAGE_KEY = "subscribe_auth";
-    const VALID_HOUR = 24; // 验证有效期24小时
+    const VALID_MINUTE = 10; // 验证有效期10分钟
 
     const pwdModal = document.getElementById('pwdModal');
     const pageContent = document.getElementById('pageContent');
@@ -420,7 +440,7 @@
       if (!authStr) return false;
       const authData = JSON.parse(authStr);
       const now = Date.now();
-      const expire = authData.time + VALID_HOUR * 60 * 60 * 1000;
+      const expire = authData.time + VALID_MINUTE * 60 * 1000;
       return now < expire;
     }
 
