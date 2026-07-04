@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>链接收藏舱</title>
-  <meta name="description" content="优质网址收藏与导航">
   <link rel="stylesheet" href="./assets/styles/main.css">
   <link rel="icon" href="/favicon.ico">
   <style>
-    /* ========== 主题变量（与首页完全一致） ========== */
     :root {
       --bg-mask: rgba(15, 18, 35, 0.38);
       --card-bg: rgba(32, 36, 58, 0.38);
@@ -24,7 +25,6 @@
       --divider-color: rgba(245, 230, 179, 0.25);
       --nav-text: #ffffff;
     }
-
     .light-theme {
       --bg-mask: rgba(240, 245, 255, 0.35);
       --card-bg: rgba(255, 255, 255, 0.62);
@@ -40,22 +40,16 @@
       --divider-color: rgba(109, 40, 217, 0.2);
       --nav-text: #1e293b;
     }
-
-    /* 全局基础 */
     html, body {
       min-height: 100vh;
       margin: 0;
       padding: 0;
       color: var(--text-primary);
-      transition: color 0.3s ease;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      position: relative;
       background: url('https://picsum.photos/id/1043/1920/1080') center/cover no-repeat fixed;
+      position: relative;
     }
-
-    /* 背景视频 */
     .bg-video {
       position: fixed;
       inset: 0;
@@ -63,251 +57,49 @@
       height: 100%;
       object-fit: cover;
       z-index: -2;
-      pointer-events: none;
-      filter: blur(0px) saturate(1.2);
-      -webkit-filter: blur(0px) saturate(1.2);
-      transform: scale(1.02);
     }
-
-    /* 背景遮罩 */
     body::before {
       content: '';
       position: fixed;
       inset: 0;
       background: var(--bg-mask);
-      backdrop-filter: blur(0px);
-      -webkit-backdrop-filter: blur(0px);
       z-index: -1;
-      transition: background 0.3s ease;
     }
-
-    /* 主题切换按钮 */
-    .theme-toggle {
-      background: var(--card-bg) !important;
-      border: 1px solid var(--card-border) !important;
-      color: var(--text-primary) !important;
-      width: 36px !important;
-      height: 36px !important;
-      border-radius: 10px !important;
-      cursor: pointer;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      font-size: 1rem !important;
-      transition: all 0.3s ease !important;
-      margin-left: 16px !important;
-      flex-shrink: 0 !important;
-      padding: 0 !important;
-    }
-    .theme-toggle:hover {
-      transform: scale(1.08);
-      border-color: var(--accent-color) !important;
-    }
-
-    /* 导航栏适配 */
     .navbar {
-      background: var(--card-bg) !important;
-      backdrop-filter: blur(16px) !important;
-      -webkit-backdrop-filter: blur(16px) !important;
-      border-bottom: 1px solid var(--card-border) !important;
+      background: var(--card-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--card-border);
     }
-    .light-theme .nav-logo,
-    .light-theme .nav-links a {
-      color: var(--nav-text) !important;
+    .light-theme .nav-logo, .light-theme .nav-links a {color: var(--nav-text);}
+    .light-theme .nav-links a.active {color: var(--accent-color);}
+    .theme-toggle {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text-primary);
+      width:36px;height:36px;border-radius:10px;cursor:pointer;
     }
-    .light-theme .nav-links a.active {
-      color: var(--accent-color) !important;
-    }
-
-    /* 主容器宽度 */
-    .main-wrap {
-      max-width: 1280px !important;
-      width: 100% !important;
-      margin: 0 auto !important;
-      padding: 30px 20px !important;
-    }
-
-    /* 通用毛玻璃卡片 */
+    .main-wrap {max-width:1280px;margin:0 auto;padding:30px 20px;}
     .glass-card {
       background: var(--card-bg);
-      backdrop-filter: blur(12px) saturate(130%);
-      -webkit-backdrop-filter: blur(12px) saturate(130%);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 28px;
-      box-shadow: var(--card-shadow);
-      transition: background 0.3s ease, border-color 0.3s ease;
+      backdrop-filter: blur(12px);
+      border:1px solid var(--card-border);
+      border-radius:18px;padding:28px;box-shadow:var(--card-shadow);
     }
-
-    /* 页面标题 */
-    .page-title {
-      font-size: 2.2rem;
-      font-weight: 600;
-      text-align: center;
-      color: var(--title-color);
-      margin-bottom: 10px;
-      letter-spacing: 1px;
-    }
-    .page-desc {
-      text-align: center;
-      color: var(--text-secondary);
-      margin-bottom: 36px;
-      font-size: 1.05rem;
-      padding-bottom: 20px;
-      border-bottom: 1px dashed var(--divider-color);
-    }
-
-    /* 链接卡片网格 */
-    .card-collection {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-    .link-card {
-      flex: 1 1 320px;
-      min-width: 280px;
-      background: var(--stat-bg);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: 16px;
-      padding: 28px 24px;
-      border: 1px solid var(--card-border);
-      box-shadow: var(--card-shadow);
-      transition: all 0.3s ease;
-    }
-    .link-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent-color);
-    }
-
-    .card-title {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      font-size: 1.4rem;
-      font-weight: 500;
-      margin-bottom: 20px;
-      color: var(--title-color);
-      padding-bottom: 12px;
-      border-bottom: 1px solid var(--divider-color);
-    }
-    .card-title span {
-      font-size: 1.6rem;
-    }
-
-    /* 下拉选择框 */
-    .link-select {
-      width: 100%;
-      padding: 14px 20px;
-      background: var(--stat-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      font-size: 1rem;
-      color: var(--text-primary);
-      outline: none;
-      cursor: pointer;
-      margin-bottom: 20px;
-      transition: all 0.2s;
-      appearance: none;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23f5e6b3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 16px center;
-      background-size: 18px;
-      backdrop-filter: blur(6px);
-    }
-    .light-theme .link-select {
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236d28d9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
-    }
-    .link-select:hover {
-      border-color: var(--accent-color);
-    }
-    .link-select option {
-      background-color: #1f2740;
-      color: #f0f0f0;
-      padding: 12px;
-      font-size: 0.95rem;
-    }
-    .light-theme .link-select option {
-      background-color: #ffffff;
-      color: #1e293b;
-    }
-
-    /* 打开按钮 */
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 14px 24px;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1e2b5e;
-      background-color: #ffd966;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      text-align: center;
-    }
-    .btn:hover {
-      background-color: #ffe69b;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    }
-
-    .hint {
-      margin-top: 16px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      text-align: center;
-    }
-
-    /* 返回按钮 */
-    .back-btn {
-      display: block;
-      width: fit-content;
-      margin: 0 auto;
-      padding: 12px 30px;
-      background: var(--stat-bg);
-      backdrop-filter: blur(8px);
-      color: var(--text-primary);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.25s ease;
-    }
-    .back-btn:hover {
-      background: var(--item-hover-bg);
-      border-color: var(--accent-color);
-      transform: translateY(-2px);
-    }
-
-    .footer-tip {
-      text-align: center;
-      margin-top: 16px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    /* 响应式 */
-    @media (max-width: 650px) {
-      .page-title { font-size: 1.8rem; }
-      .card-collection { gap: 16px; }
-    }
+    .page-title {font-size:2.2rem;text-align:center;color:var(--title-color);margin-bottom:10px;}
+    .page-desc {text-align:center;color:var(--text-secondary);margin-bottom:36px;padding-bottom:20px;border-bottom:1px dashed var(--divider-color);}
+    .card-collection {display:flex;flex-wrap:wrap;gap:24px;justify-content:center;margin-bottom:30px;}
+    .link-card {flex:1 1 320px;background:var(--stat-bg);border-radius:16px;padding:28px;border:1px solid var(--card-border);}
+    .card-header {display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--divider-color);}
+    .card-name {font-size:1.3rem;color:var(--title-color);font-weight:600;}
+    .link-select {width:100%;padding:14px;border-radius:12px;background:var(--stat-bg);border:1px solid var(--card-border);color:var(--text-primary);margin-bottom:16px;}
+    .open-btn {width:100%;padding:13px;border-radius:12px;background:var(--accent-color);color:#fff;border:none;font-weight:600;cursor:pointer;}
+    .back-btn {display:block;margin:0 auto;padding:12px 30px;background:var(--stat-bg);border:1px solid var(--card-border);border-radius:12px;text-decoration:none;color:var(--text-primary);text-align:center;}
   </style>
 </head>
 <body>
-  <!-- 背景视频 -->
   <video class="bg-video" autoplay muted loop playsinline>
-    <source src="./assets/zhuyetu/LOOP.mp4" type="video/mp4">
+    <source src="./assets/zhuyetu/LOOP.mp4">
   </video>
-
-  <!-- 顶部导航 -->
   <header class="navbar">
     <div class="nav-container">
       <div class="nav-logo">⚡ CF Site</div>
@@ -319,105 +111,67 @@
         <a href="/subscribe.html">订阅工具</a>
         <a href="/api/hello">API 测试</a>
       </nav>
-      <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
+      <button class="theme-toggle" id="themeToggle">🌙</button>
     </div>
   </header>
-
-  <!-- 主内容 -->
   <main class="main-wrap">
     <div class="glass-card">
       <h1 class="page-title">🔖 链接收藏舱</h1>
-      <div class="page-desc">✦ 两个独立保存库 · 挑选链接一键抵达 ✦</div>
-
+      <div class="page-desc">常用网址一键跳转</div>
       <div class="card-collection">
-        <!-- 工作工具集卡片（已移除订阅链接） -->
         <div class="link-card">
-          <div class="card-title">
-            <span>📁</span> 工作·工具集
-          </div>
-          <select id="workSelect" class="link-select">
-            <option value="https://www.google.com">🔍 Google (全球搜索)</option>
-            <option value="https://github.com" selected>🐙 GitHub (代码仓库)</option>
-            <option value="https://stackoverflow.com">📌 Stack Overflow (解决BUG)</option>
-            <option value="https://developer.mozilla.org">📘 MDN Web Docs (开发文档)</option>
-            <option value="https://www.figma.com">🎨 Figma (设计协作)</option>
+          <div class="card-header"><span>📁</span><div class="card-name">工作工具集</div></div>
+          <select class="link-select" id="workSel">
+            <option value="https://google.com">Google搜索</option>
+            <option value="https://github.com">Github</option>
+            <option value="https://stackoverflow.com">Stackoverflow</option>
+            <option value="https://developer.mozilla.org">MDN文档</option>
+            <option value="https://figma.com">Figma</option>
           </select>
-          <button class="btn open-btn" data-select="workSelect">▶ 打开选择的链接</button>
-          <div class="hint">
-            ⚡ 共保存5个常用链接 ⚡
-          </div>
+          <button class="open-btn" onclick="goOpen('workSel')">打开网址</button>
         </div>
-
-        <!-- 生活灵感库卡片 -->
         <div class="link-card">
-          <div class="card-title">
-            <span>📚</span> 生活·灵感库
-          </div>
-          <select id="lifeSelect" class="link-select">
-            <option value="https://www.bilibili.com">📺 B站 (视频/学习)</option>
-            <option value="https://www.zhihu.com">❓ 知乎 (深度讨论)</option>
-            <option value="https://www.youtube.com">▶ YouTube (全球视频)</option>
-            <option value="https://open.spotify.com">🎧 Spotify (音乐播客)</option>
-            <option value="https://letterboxd.com">🎬 豆瓣备选 (电影日记)</option>
+          <div class="card-header"><span>📚</span><div class="card-name">生活合集</div></div>
+          <select class="link-select" id="lifeSel">
+            <option value="https://bilibili.com">B站</option>
+            <option value="https://zhihu.com">知乎</option>
+            <option value="https://youtube.com">YouTube</option>
+            <option value="https://spotify.com">Spotify</option>
           </select>
-          <button class="btn open-btn" data-select="lifeSelect">▶ 打开选择的链接</button>
-          <div class="hint">
-            ✨ 收藏5个精神角落 ✨
-          </div>
+          <button class="open-btn" onclick="goOpen('lifeSel')">打开网址</button>
         </div>
       </div>
-
       <a href="/index.html" class="back-btn">← 返回首页</a>
-      <div class="footer-tip">* 点击打开按钮会在新标签页跳转你选择的链接</div>
     </div>
   </main>
-
-  <!-- 页脚 -->
-  <footer class="footer">
-    <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
-  </footer>
-
-  <script type="module" src="./js/main.js"></script>
+  <footer class="footer"><p>© 2025 My Cloudflare Site</p></footer>
   <script>
-    // 原有跳转逻辑
-    (function() {
-      const openButtons = document.querySelectorAll('.open-btn');
-      openButtons.forEach(btn => {
-        btn.addEventListener('click', function(event) {
-          event.preventDefault();
-          const selectId = this.dataset.select;
-          if (!selectId) return;
-          const selectEl = document.getElementById(selectId);
-          if (!selectEl) {
-            alert('对应的链接列表不存在');
-            return;
-          }
-          const url = selectEl.value;
-          if (url && url.startsWith('http')) {
-            window.open(url, '_blank');
-          } else {
-            alert('请选择一个有效的链接');
-          }
-        });
-      });
-    })();
-
-    // 主题切换（全站同步）
+    function goOpen(id){
+      const val = document.getElementById(id).value;
+      window.open(val,'_blank');
+    }
     const themeToggle = document.getElementById('themeToggle');
     const htmlEl = document.documentElement;
-    const savedTheme = localStorage.getItem('site-theme');
-    if (savedTheme === 'light') {
-      htmlEl.classList.add('light-theme');
-      themeToggle.textContent = '☀️';
-    } else {
-      themeToggle.textContent = '🌙';
+    if(localStorage.getItem('site-theme')==='light'){
+      htmlEl.classList.add('light-theme');themeToggle.textContent='☀️';
     }
-    themeToggle.addEventListener('click', () => {
+    themeToggle.onclick=()=>{
       htmlEl.classList.toggle('light-theme');
       const isLight = htmlEl.classList.contains('light-theme');
       themeToggle.textContent = isLight ? '☀️' : '🌙';
       localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
-    });
+    }
+    (function(){
+      const verKey = "site_build_version";
+      const buildVer = Date.now();
+      const localVer = localStorage.getItem(verKey);
+      if(localVer && Math.abs(buildVer - localVer) > 86400000){
+        localStorage.setItem(verKey, buildVer);
+        window.location.reload(true);
+      }else{
+        localStorage.setItem(verKey, buildVer);
+      }
+    })()
   </script>
 </body>
 </html>
