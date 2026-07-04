@@ -98,6 +98,12 @@
       border-bottom: 1px solid var(--card-border) !important;
     }
 
+    /* 首页单独放宽主容器宽度，给双栏留出空间，不影响其他页面 */
+    .main-wrap {
+      max-width: 1280px !important;
+      width: 100%;
+    }
+
     /* ========== 核心：左右双栏横向布局 ========== */
     .home-layout {
       display: grid;
@@ -303,12 +309,12 @@
 
   <!-- 主内容：左右双栏横向排列 -->
   <main class="main-wrap home-layout">
-    <!-- 左侧栏：个人信息 + 访问趋势 -->
+    <!-- 左侧栏：站点信息 + 访问趋势 -->
     <aside class="left-sidebar">
       <!-- 卡片1：站点信息 -->
       <div class="glass-card">
         <div class="profile-header">
-          <img src="./assets/images/touxiang.jpeg" alt="站点头像" class="profile-avatar">
+          <img src="./assets/images/touxiang.jpg" alt="站点头像" class="profile-avatar">
           <div class="profile-name">My Cloudflare Site</div>
           <div class="profile-title">Vite + 无服务器静态站点</div>
           <a href="https://github.com/ywd2279406651/my-cloudflare-site" target="_blank" class="github-btn">
