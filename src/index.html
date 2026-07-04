@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的个人站点</title>
-  <meta name="description" content="基于 Vite + Cloudflare Pages 的个人静态站点">
+  <title>康神开播了</title>
+  <meta name="description" content="基于 Vite 构建 + Cloudflare Pages 托管的无服务器个人站点">
   <link rel="stylesheet" href="./assets/styles/main.css">
   <link rel="icon" href="/favicon.ico">
   <style>
+    /* ========== 主题变量 ========== */
     :root {
-      --bg-mask: rgba(15, 18, 35, 0.75);
-      --card-bg: rgba(32, 36, 58, 0.65);
+      /* 暗色主题（默认） */
+      --bg-mask: rgba(15, 18, 35, 0.72);
+      --card-bg: rgba(32, 36, 58, 0.7);
       --card-border: rgba(255, 255, 255, 0.12);
       --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
       --text-primary: #ffffff;
@@ -22,6 +24,7 @@
     }
 
     .light-theme {
+      /* 亮色主题 */
       --bg-mask: rgba(255, 255, 255, 0.55);
       --card-bg: rgba(255, 255, 255, 0.75);
       --card-border: rgba(255, 255, 255, 0.8);
@@ -34,8 +37,8 @@
       --stat-bg: rgba(255, 255, 255, 0.6);
     }
 
-    html,
-    body {
+    /* ========== 全局背景与基础 ========== */
+    html, body {
       min-height: 100vh;
       margin: 0;
       padding: 0;
@@ -44,10 +47,12 @@
     }
 
     body {
-      background: url('./assets/images/touxiang.jpg') center/cover no-repeat fixed;
+      /* 背景图片，可自行替换链接或本地图片路径 */
+      background: url('https://picsum.photos/id/1043/1920/1080') center/cover no-repeat fixed;
       position: relative;
     }
 
+    /* 背景遮罩层，随主题变色 */
     body::before {
       content: '';
       position: fixed;
@@ -59,6 +64,7 @@
       transition: background 0.3s ease;
     }
 
+    /* 主题切换按钮 */
     .theme-toggle {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -76,12 +82,12 @@
       transition: all 0.3s ease;
       margin-left: 16px;
     }
-
     .theme-toggle:hover {
       transform: scale(1.08);
       border-color: var(--accent-color);
     }
 
+    /* 导航栏适配主题 */
     .navbar {
       background: var(--card-bg) !important;
       backdrop-filter: blur(16px) !important;
@@ -89,24 +95,19 @@
       border-bottom: 1px solid var(--card-border) !important;
     }
 
-    .main-wrap {
-      width: 1280px;
-      max-width: 92vw;
-      margin: 0 auto;
+    /* ========== 双栏主布局 ========== */
+    .home-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 24px;
       padding: 30px 0;
     }
 
-    .home-layout {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 24px;
-      align-items: flex-start;
-    }
-
+    /* 通用毛玻璃卡片 */
     .glass-card {
       background: var(--card-bg);
-      backdrop-filter: blur(18px) !important;
-      -webkit-backdrop-filter: blur(18px) !important;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
       border: 1px solid var(--card-border);
       border-radius: 18px;
       padding: 24px;
@@ -115,11 +116,11 @@
       transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
+    /* ========== 左侧个人栏 ========== */
     .profile-header {
       text-align: center;
       margin-bottom: 16px;
     }
-
     .profile-avatar {
       width: 110px;
       height: 110px;
@@ -128,21 +129,17 @@
       object-fit: cover;
       margin-bottom: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-      background: rgba(255, 255, 255, 0.1);
     }
-
     .profile-name {
       font-size: 1.45rem;
       font-weight: 700;
       margin-bottom: 4px;
     }
-
     .profile-title {
       font-size: 0.9rem;
       color: var(--text-secondary);
       margin-bottom: 16px;
     }
-
     .github-btn {
       display: inline-flex;
       align-items: center;
@@ -156,18 +153,17 @@
       font-weight: 500;
       transition: filter 0.3s ease;
     }
-
     .github-btn:hover {
       filter: brightness(1.15);
     }
 
+    /* 数据统计卡片 */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
       margin: 20px 0;
     }
-
     .stat-item {
       text-align: center;
       padding: 14px 8px;
@@ -175,19 +171,18 @@
       border-radius: 12px;
       transition: background 0.3s ease;
     }
-
     .stat-num {
       font-size: 1.55rem;
       font-weight: 700;
       color: var(--accent-color);
       margin-bottom: 2px;
     }
-
     .stat-label {
       font-size: 0.8rem;
       color: var(--text-secondary);
     }
 
+    /* 模块标题 */
     .card-title {
       font-size: 1.05rem;
       font-weight: 600;
@@ -197,12 +192,12 @@
       gap: 8px;
     }
 
+    /* 技术栈标签 */
     .tech-tags {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
-
     .tech-tag {
       padding: 4px 12px;
       border-radius: 20px;
@@ -210,35 +205,24 @@
       color: #fff;
       font-weight: 500;
     }
+    .tag-html { background: #0ea5e9; }
+    .tag-js { background: #3b82f6; }
+    .tag-vite { background: #646cff; }
+    .tag-cf { background: #f38020; }
 
-    .tag-html {
-      background: #0ea5e9;
-    }
-
-    .tag-js {
-      background: #3b82f6;
-    }
-
-    .tag-vite {
-      background: #646cff;
-    }
-
-    .tag-cf {
-      background: #f38020;
-    }
-
+    /* 概览图表 */
     .activity-chart {
       width: 100%;
       height: 150px;
       margin-top: 8px;
     }
 
+    /* ========== 右侧内容区 ========== */
     .intro-list {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     .intro-list li {
       padding: 5px 0;
       color: var(--text-secondary);
@@ -246,13 +230,13 @@
       line-height: 1.6;
     }
 
-    .project-list {
+    /* 功能列表 */
+    .feature-list {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
-
-    .project-item {
+    .feature-item {
       padding: 14px 16px;
       background: var(--stat-bg);
       border-radius: 12px;
@@ -262,14 +246,12 @@
       color: inherit;
       display: block;
     }
-
-    .project-item:hover {
+    .feature-item:hover {
       background: var(--item-hover-bg);
       border-color: var(--accent-color);
       transform: translateX(4px);
     }
-
-    .project-title {
+    .feature-title {
       font-size: 1rem;
       font-weight: 600;
       color: var(--accent-color);
@@ -278,27 +260,19 @@
       justify-content: space-between;
       align-items: center;
     }
-
-    .project-desc {
+    .feature-desc {
       font-size: 0.85rem;
       color: var(--text-secondary);
       margin-bottom: 6px;
     }
-
-    .project-meta {
+    .feature-meta {
       font-size: 0.78rem;
       color: var(--text-muted);
       display: flex;
       justify-content: space-between;
     }
 
-    footer.footer {
-      text-align: center;
-      padding: 20px 0;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
+    /* 响应式：窄屏自动堆叠 */
     @media (max-width: 900px) {
       .home-layout {
         grid-template-columns: 1fr;
@@ -307,6 +281,7 @@
   </style>
 </head>
 <body>
+  <!-- 顶部导航：完全匹配站点现有页面 -->
   <header class="navbar">
     <div class="nav-container">
       <div class="nav-logo">⚡ CF Site</div>
@@ -321,118 +296,125 @@
     </div>
   </header>
 
+  <!-- 主内容：双栏布局 -->
   <main class="main-wrap home-layout">
+    <!-- 左侧：站点信息栏 -->
     <aside class="left-sidebar">
       <div class="glass-card">
         <div class="profile-header">
-          <img src="./assets/images/touxiang.jpg" alt="头像" class="profile-avatar" onerror="this.src='https://picsum.photos/id/64/200/200'">
-          <div class="profile-name">SRInternet</div>
-          <div class="profile-title">Vite + Cloudflare Pages 站点</div>
-          <a href="https://github.com/ywd2279406651/my-cloudflare-site.git" target="_blank" class="github-btn">
-            <span>🐙</span> 访问我的 GitHub
+          <!-- 本地头像路径，对应 src/assets/images/touxiang.jpg -->
+          <img src="./assets/images/touxiang.jpg" alt="站点头像" class="profile-avatar">
+          <div class="profile-name">My Cloudflare Site</div>
+          <div class="profile-title">Vite + 无服务器静态站点</div>
+          <a href="https://github.com/ywd2279406651/my-cloudflare-site" target="_blank" class="github-btn">
+            <span>🐙</span> 查看源码仓库
           </a>
         </div>
 
         <div class="stats-grid">
           <div class="stat-item">
             <div class="stat-num">4</div>
-            <div class="stat-label">静态页面</div>
+            <div class="stat-label">功能页面</div>
           </div>
           <div class="stat-item">
             <div class="stat-num">1</div>
-            <div class="stat-label">边缘API</div>
+            <div class="stat-label">边缘接口</div>
           </div>
         </div>
 
-        <div class="card-title">🛠️ 技术栈</div>
+        <div class="card-title">技术栈</div>
         <div class="tech-tags">
-          <span class="tech-tag tag-html">&lt;/&gt; HTML/CSS</span>
-          <span class="tech-tag tag-js">&lt;/&gt; JavaScript</span>
+          <span class="tech-tag tag-html">HTML/CSS</span>
+          <span class="tech-tag tag-js">JavaScript</span>
           <span class="tech-tag tag-vite">Vite</span>
-          <span class="tech-tag tag-cf">Cloudflare Functions</span>
+          <span class="tech-tag tag-cf">Pages Functions</span>
         </div>
       </div>
 
       <div class="glass-card">
-        <div class="card-title">站点更新概览</div>
+        <div class="card-title">访问趋势概览</div>
         <svg class="activity-chart" viewBox="0 0 300 150" preserveAspectRatio="none">
           <defs>
             <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.5" />
-              <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0" />
+              <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <path d="M0,130 L25,120 L50,40 L75,20 L100,20 L125,45 L150,135 L175,135 L200,115 L225,100 L250,110 L275,125 L300,130 L300,150 L0,150 Z" fill="url(#lineGradient)" />
-          <path d="M0,130 L25,120 L50,40 L75,20 L100,20 L125,45 L150,135 L175,135 L200,115 L225,100 L250,110 L275,125 L300,130" fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="50" cy="40" r="3" fill="#8b5cf6" />
-          <circle cx="75" cy="20" r="3" fill="#8b5cf6" />
-          <circle cx="100" cy="20" r="3" fill="#8b5cf6" />
-          <circle cx="225" cy="100" r="3" fill="#8b5cf6" />
+          <!-- 填充区域 -->
+          <path d="M0,130 L25,120 L50,40 L75,20 L100,20 L125,45 L150,135 L175,135 L200,115 L225,100 L250,110 L275,125 L300,130 L300,150 L0,150 Z" 
+                fill="url(#lineGradient)"/>
+          <!-- 折线 -->
+          <path d="M0,130 L25,120 L50,40 L75,20 L100,20 L125,45 L150,135 L175,135 L200,115 L225,100 L250,110 L275,125 L300,130" 
+                fill="none" stroke="#8b5cf6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- 数据点 -->
+          <circle cx="50" cy="40" r="3" fill="#8b5cf6"/>
+          <circle cx="75" cy="20" r="3" fill="#8b5cf6"/>
+          <circle cx="100" cy="20" r="3" fill="#8b5cf6"/>
+          <circle cx="225" cy="100" r="3" fill="#8b5cf6"/>
         </svg>
       </div>
     </aside>
 
+    <!-- 右侧：站点功能与介绍 -->
     <section class="right-content">
+      <!-- 站点介绍 -->
       <div class="glass-card">
-        <div class="card-title">📋 个人介绍</div>
+        <div class="card-title">📋 站点介绍</div>
         <ul class="intro-list">
-          <li>你好「这里」👋</li>
-          <li>用代码表达人格魅力，用代码书写山河壮丽</li>
-          <li>站点基于 Vite 构建，托管于 Cloudflare Pages</li>
-          <li>支持边缘函数 API、多页面静态展示</li>
-          <li>可自由切换明暗主题，自定义背景图片</li>
-          <li>💬 有任何问题可通过 GitHub 仓库联系我</li>
+          <li>✨ 基于 Vite 极速构建的纯静态站点</li>
+          <li>🌍 托管于 Cloudflare Pages 全球边缘节点，访问速度快</li>
+          <li>⚡ 搭配 Pages Functions 实现轻量边缘 API，无需独立服务器</li>
+          <li>🖼️ 内置图片图库、链接收藏、站点说明等功能模块</li>
+          <li>🎨 全站玻璃拟态风格，支持明暗双主题切换</li>
+          <li>📦 零运维成本，代码推送自动部署上线</li>
         </ul>
       </div>
 
+      <!-- 站点功能列表，完全对应目录内的页面 -->
       <div class="glass-card">
         <div class="card-title">📁 站点功能</div>
-        <div class="project-list">
-          <a href="/links.html" class="project-item">
-            <div class="project-title">
+        <div class="feature-list">
+          <a href="/links.html" class="feature-item">
+            <div class="feature-title">
               🔖 链接收藏舱
               <span>静态页面</span>
             </div>
-            <div class="project-desc">分类管理、快速访问收藏的各类网站链接</div>
-            <div class="project-meta">
-              <span>HTML / CSS</span>
-              <span>本地页面</span>
+            <div class="feature-desc">分类管理与快速访问收藏的优质网址导航</div>
+            <div class="feature-meta">
+              <span>对应页面：src/links.html</span>
             </div>
           </a>
 
-          <a href="/gallery.html" class="project-item">
-            <div class="project-title">
+          <a href="/gallery.html" class="feature-item">
+            <div class="feature-title">
               🖼️ 图片图库
               <span>静态页面</span>
             </div>
-            <div class="project-desc">响应式图片浏览页面，展示精选图片合集</div>
-            <div class="project-meta">
-              <span>HTML / JavaScript</span>
-              <span>本地页面</span>
+            <div class="feature-desc">响应式图片合集展示，支持浏览查看</div>
+            <div class="feature-meta">
+              <span>对应页面：src/gallery.html</span>
             </div>
           </a>
 
-          <a href="/about.html" class="project-item">
-            <div class="project-title">
+          <a href="/about.html" class="feature-item">
+            <div class="feature-title">
               ℹ️ 关于站点
               <span>静态页面</span>
             </div>
-            <div class="project-desc">站点技术说明、开发信息与联系方式</div>
-            <div class="project-meta">
-              <span>HTML</span>
-              <span>本地页面</span>
+            <div class="feature-desc">站点说明、技术架构与相关信息介绍</div>
+            <div class="feature-meta">
+              <span>对应页面：src/about.html</span>
             </div>
           </a>
 
-          <a href="/api/hello" class="project-item">
-            <div class="project-title">
+          <a href="/api/hello" class="feature-item">
+            <div class="feature-title">
               ⚡ API 测试接口
               <span>边缘函数</span>
             </div>
-            <div class="project-desc">Cloudflare Pages Functions 边缘计算演示接口</div>
-            <div class="project-meta">
-              <span>JavaScript</span>
-              <span>functions 目录</span>
+            <div class="feature-desc">Cloudflare Pages Functions 边缘计算接口演示</div>
+            <div class="feature-meta">
+              <span>对应目录：functions/</span>
             </div>
           </a>
         </div>
@@ -440,27 +422,32 @@
     </section>
   </main>
 
+  <!-- 页脚：保持全站统一 -->
   <footer class="footer">
-    <p>© 2026 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
+    <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
   </footer>
 
   <script type="module" src="./js/main.js"></script>
   <script>
+    // 主题切换逻辑
     const themeToggle = document.getElementById('themeToggle');
-    const root = document.documentElement;
-    const storageKey = 'site-theme';
+    const htmlEl = document.documentElement;
 
-    const localTheme = localStorage.getItem(storageKey);
-    if (localTheme === 'light') {
-      root.classList.add('light-theme');
+    // 初始化主题：读取本地存储
+    const savedTheme = localStorage.getItem('site-theme');
+    if (savedTheme === 'light') {
+      htmlEl.classList.add('light-theme');
       themeToggle.textContent = '☀️';
+    } else {
+      themeToggle.textContent = '🌙';
     }
 
+    // 切换主题
     themeToggle.addEventListener('click', () => {
-      root.classList.toggle('light-theme');
-      const isLight = root.classList.contains('light-theme');
+      htmlEl.classList.toggle('light-theme');
+      const isLight = htmlEl.classList.contains('light-theme');
       themeToggle.textContent = isLight ? '☀️' : '🌙';
-      localStorage.setItem(storageKey, isLight ? 'light' : 'dark');
+      localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
     });
   </script>
 </body>
