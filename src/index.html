@@ -108,7 +108,7 @@
       border-color: var(--accent-color) !important;
     }
 
-    /* 导航栏适配主题 */
+    /* 导航栏适配主题 + 文字颜色同步 */
     .navbar {
       background: var(--card-bg) !important;
       backdrop-filter: blur(16px) !important;
@@ -123,7 +123,7 @@
       color: var(--accent-color) !important;
     }
 
-    /* ========== 双栏布局 ========== */
+    /* ========== 核心修复：双栏布局 ========== */
     .main-wrap {
       max-width: 1280px !important;
       width: 100% !important;
@@ -383,14 +383,14 @@
           <img src="./assets/zhuyetu/touxiang.jpeg" alt="站点头像" class="profile-avatar">
           <div class="profile-name">My Cloudflare Site</div>
           <div class="profile-title">Vite + 无服务器静态站点</div>
-          <a href="https://github.com/ywd2279406651/my-cloudflare-site" target="_blank" class="github-btn">
+          <a href="https://github.com" target="_blank" class="github-btn">
             <span>🐙</span> 查看源码仓库
           </a>
         </div>
 
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-num">4</div>
+            <div class="stat-num">5</div>
             <div class="stat-label">功能页面</div>
           </div>
           <div class="stat-item">
@@ -465,6 +465,16 @@
             </div>
             <div class="feature-desc">响应式图片合集展示，支持浏览查看</div>
             <div class="feature-meta">对应页面：src/gallery.html</div>
+          </a>
+
+          <!-- 新增：订阅工具导航入口 -->
+          <a href="/subscribe.html" class="feature-item">
+            <div class="feature-title">
+              📡 订阅工具导航
+              <span>静态页面</span>
+            </div>
+            <div class="feature-desc">节点订阅管理面板，多客户端配置一键生成</div>
+            <div class="feature-meta">对应页面：src/subscribe.html</div>
           </a>
 
           <a href="/about.html" class="feature-item">
