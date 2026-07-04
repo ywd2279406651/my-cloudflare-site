@@ -159,7 +159,7 @@
       border-bottom: 1px dashed var(--divider-color);
     }
 
-    /* 图片网格（保留原有路径与结构） */
+    /* 图片网格 */
     .gallery-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -239,6 +239,7 @@
         <a href="/about.html">关于</a>
         <a href="/links.html">链接收藏</a>
         <a href="/gallery.html" class="active">图库</a>
+        <a href="/subscribe.html">订阅工具</a>
         <a href="/api/hello">API 测试</a>
       </nav>
       <button class="theme-toggle" id="themeToggle" title="切换明暗主题">🌙</button>
@@ -251,7 +252,7 @@
       <h1 class="page-title">🖼️ 图片收藏库</h1>
       <div class="page-desc">✦ 精选图片合集 · 点击查看大图 ✦</div>
 
-      <!-- 图片网格（原有路径与标题完整保留） -->
+      <!-- 图片网格 -->
       <div class="gallery-grid">
         <div class="gallery-item">
           <img src="./assets/images/photo1.jpg" alt="示例图片1">
@@ -290,7 +291,7 @@
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // 原有点击放大逻辑完整保留
+    // 点击图片在新标签页打开原图
     document.querySelectorAll('.gallery-item img').forEach(img => {
       img.addEventListener('click', () => {
         window.open(img.src, '_blank');
