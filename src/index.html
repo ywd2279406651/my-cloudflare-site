@@ -3,75 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>kskbl</title>
-  <meta name="description" content="个人站点 - 记录项目与收藏">
+  <title>Cloudflare Vite 静态站点</title>
+  <meta name="description" content="基于 Vite 构建 + Cloudflare Pages 托管的无服务器站点方案">
   <link rel="stylesheet" href="./assets/styles/main.css">
   <link rel="icon" href="/favicon.ico">
   <style>
-    /* 简化首页欢迎区 */
-    .simple-hero {
-      text-align: center;
-      padding: 40px 0 60px;
-    }
-    .simple-hero h1 {
-      font-size: 2.2rem;
-      font-weight: 600;
-      background: linear-gradient(135deg, #ffffff, #d3dcff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 10px;
-    }
-    .simple-hero p {
-      opacity: 0.8;
-      font-size: 1.05rem;
+    /* 新增：最近在做 区域样式，玻璃拟态风格与全站统一 */
+    .recent-projects {
+      margin-top: 60px;
     }
 
-    /* 项目卡片补充样式（复用原有玻璃拟态基底） */
-    .project-card {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .recent-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 30px;
+    }
+
+    .recent-card {
+      background: rgba(20, 28, 50, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
       padding: 28px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+      transition: all 0.3s ease;
     }
-    .project-card .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+
+    .recent-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 215, 100, 0.35);
+      box-shadow: 0 28px 45px -15px rgba(0, 0, 0, 0.6);
     }
-    .project-card .card-title {
+
+    .recent-card h3 {
       font-size: 1.25rem;
+      color: #ffecbb;
+      margin-bottom: 12px;
       font-weight: 600;
-      color: #ffecbb;
     }
-    .project-card .card-date {
-      font-size: 0.85rem;
-      opacity: 0.7;
-    }
-    .project-card .card-desc {
+
+    .recent-card p {
+      color: rgba(240, 240, 240, 0.8);
       line-height: 1.6;
-      opacity: 0.85;
-      flex: 1;
+      font-size: 0.95rem;
+      margin-bottom: 18px;
     }
-    .project-card .card-link {
-      align-self: flex-start;
-      padding: 8px 18px;
-      border: 1px solid rgba(255,255,255,0.3);
+
+    .recent-card .card-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255, 236, 187, 0.15);
       border-radius: 20px;
-      color: #fff;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.25s ease;
-    }
-    .project-card .card-link:hover {
-      background: rgba(255,255,255,0.2);
-      border-color: #ffecbb;
+      font-size: 0.8rem;
       color: #ffecbb;
+    }
+
+    /* 简化英雄区样式适配 */
+    .hero {
+      text-align: center;
+      padding: 40px 0 20px;
     }
   </style>
 </head>
 <body>
-  <!-- 顶部玻璃导航（完全保留，全站统一） -->
+  <!-- 顶部玻璃导航（完整保留） -->
   <header class="navbar">
     <div class="nav-container">
       <div class="nav-logo">⚡ CF Site</div>
@@ -85,48 +82,42 @@
     </div>
   </header>
 
-  <!-- 主容器：重构内容区 -->
+  <!-- 主容器 -->
   <main class="main-wrap">
-    <!-- 简化欢迎区 -->
-    <section class="simple-hero">
-      <h1>你好，欢迎来到我的站点</h1>
-      <p>记录项目、分享收藏、留存生活碎片</p>
+    <!-- 简化英雄区：移除宣传文案，保留核心功能入口 -->
+    <section class="hero">
+      <span class="hero-badge">✨ 个人导航站</span>
+      <h1>欢迎来到我的站点</h1>
+      <div class="hero-buttons">
+        <a href="/gallery.html" class="btn btn-primary">🖼️ 进入图库</a>
+        <a href="/links.html" class="btn btn-outline">🔖 链接收藏</a>
+        <a href="/about.html" class="btn btn-outline">关于本站</a>
+      </div>
     </section>
 
-    <!-- 最近在做：双玻璃拟态卡片 -->
-    <section class="features">
+    <!-- 新增：最近在做 区域（双玻璃拟态卡片） -->
+    <section class="recent-projects">
       <h2 class="section-title">最近在做</h2>
-      <p class="section-desc">✦ 正在进行的项目与动态 ✦</p>
+      <p class="section-desc">✦ 记录当前项目与动态 ✦</p>
       
-      <div class="feature-grid">
-        <!-- 卡片 1 -->
-        <div class="feature-card project-card">
-          <div class="card-header">
-            <div class="card-title">个人图库搭建</div>
-            <div class="card-date">2025.07</div>
-          </div>
-          <p class="card-desc">
-            基于 Cloudflare Pages 搭建个人图片收藏库，支持响应式网格布局与玻璃拟态界面，后续将补充灯箱预览与分类筛选功能。
-          </p>
-          <a href="/gallery.html" class="card-link">查看详情 →</a>
+      <div class="recent-grid">
+        <!-- 卡片1：可自行修改标题、描述、标签 -->
+        <div class="recent-card">
+          <h3>📸 个人图库搭建</h3>
+          <p>基于 Vite + Cloudflare Pages 搭建个人图片收藏库，响应式网格布局，全球 CDN 加速访问。</p>
+          <span class="card-tag">进行中</span>
         </div>
-
-        <!-- 卡片 2 -->
-        <div class="feature-card project-card">
-          <div class="card-header">
-            <div class="card-title">链接收藏舱</div>
-            <div class="card-date">2025.06</div>
-          </div>
-          <p class="card-desc">
-            整理日常收集的优质工具、教程与资源站点，分类归档方便快速检索，持续更新实用网络工具与前端开发资源。
-          </p>
-          <a href="/links.html" class="card-link">前往查看 →</a>
+        <!-- 卡片2：可自行修改标题、描述、标签 -->
+        <div class="recent-card">
+          <h3>🔗 优质链接整理</h3>
+          <p>持续收集开发工具、设计资源与实用网站，分类归档，打造个人专属导航书签库。</p>
+          <span class="card-tag">长期更新</span>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- 页脚（完全保留） -->
+  <!-- 页脚（完整保留） -->
   <footer class="footer">
     <p>© 2025 My Cloudflare Site · Built with Vite & Cloudflare Pages</p>
   </footer>
