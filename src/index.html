@@ -11,33 +11,33 @@
     /* ========== 主题变量 ========== */
     :root {
       /* 暗色主题（默认）*/
-      --bg-mask: rgba(15, 18, 35, 0.42);
-      --card-bg: rgba(32, 36, 58, 0.42);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+      --bg-mask: rgba(15, 18, 35, 0.38);
+      --card-bg: rgba(32, 36, 58, 0.38);
+      --card-border: rgba(255, 255, 255, 0.10);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
       --text-primary: #ffffff;
-      --text-secondary: rgba(255, 255, 255, 0.75);
-      --text-muted: rgba(255, 255, 255, 0.55);
+      --text-secondary: rgba(255, 255, 255, 0.78);
+      --text-muted: rgba(255, 255, 255, 0.58);
       --accent-color: #7c3aed;
       --item-hover-bg: rgba(255, 255, 255, 0.08);
-      --stat-bg: rgba(255, 255, 255, 0.05);
+      --stat-bg: rgba(255, 255, 255, 0.06);
       --title-color: #f5e6b3;
-      --divider-color: rgba(245, 230, 179, 0.3);
+      --divider-color: rgba(245, 230, 179, 0.25);
       --nav-text: #ffffff;
     }
 
     .light-theme {
       /* 亮色主题 */
-      --bg-mask: rgba(240, 245, 255, 0.38);
-      --card-bg: rgba(255, 255, 255, 0.68);
-      --card-border: rgba(0, 0, 0, 0.08);
-      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --bg-mask: rgba(240, 245, 255, 0.35);
+      --card-bg: rgba(255, 255, 255, 0.62);
+      --card-border: rgba(0, 0, 0, 0.06);
+      --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
       --text-primary: #1e293b;
       --text-secondary: #475569;
       --text-muted: #64748b;
       --accent-color: #6d28d9;
       --item-hover-bg: rgba(109, 40, 217, 0.08);
-      --stat-bg: rgba(255, 255, 255, 0.95);
+      --stat-bg: rgba(255, 255, 255, 0.55);
       --title-color: #6d28d9;
       --divider-color: rgba(109, 40, 217, 0.2);
       --nav-text: #1e293b;
@@ -57,7 +57,7 @@
       background: url('https://picsum.photos/id/1043/1920/1080') center/cover no-repeat fixed;
     }
 
-    /* 背景视频：取消模糊，让背景更清晰 */
+    /* 背景视频：取消模糊，保持清晰 */
     .bg-video {
       position: fixed;
       inset: 0;
@@ -71,7 +71,7 @@
       transform: scale(1.02);
     }
 
-    /* 背景遮罩层：只保留轻微暗色/亮色遮罩 */
+    /* 背景遮罩层：仅保留轻微遮罩 */
     body::before {
       content: '';
       position: fixed;
@@ -108,7 +108,7 @@
       border-color: var(--accent-color) !important;
     }
 
-    /* 导航栏适配主题 + 文字颜色同步 */
+    /* 导航栏适配主题 */
     .navbar {
       background: var(--card-bg) !important;
       backdrop-filter: blur(16px) !important;
@@ -123,7 +123,7 @@
       color: var(--accent-color) !important;
     }
 
-    /* ========== 核心修复：双栏布局 ========== */
+    /* ========== 双栏布局 ========== */
     .main-wrap {
       max-width: 1280px !important;
       width: 100% !important;
@@ -149,11 +149,11 @@
       flex: unset !important;
     }
 
-    /* ========== 通用毛玻璃卡片：更透明 ========== */
+    /* ========== 通用高透明毛玻璃卡片 ========== */
     .glass-card {
       background: var(--card-bg);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      backdrop-filter: blur(12px) saturate(130%);
+      -webkit-backdrop-filter: blur(12px) saturate(130%);
       border: 1px solid var(--card-border);
       border-radius: 18px;
       padding: 24px;
@@ -217,7 +217,7 @@
       filter: brightness(1.15);
     }
 
-    /* 数据统计 */
+    /* 数据统计卡片 */
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -229,10 +229,10 @@
       padding: 14px 8px;
       background: var(--stat-bg);
       border-radius: 12px;
-      transition: background 0.3s ease;
       border: 1px solid var(--card-border);
-      backdrop-filter: blur(9px);
-      -webkit-backdrop-filter: blur(9px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: background 0.3s ease;
     }
     .stat-num {
       font-size: 1.55rem;
@@ -250,6 +250,12 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      padding: 12px;
+      background: var(--stat-bg);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .tech-tag {
       padding: 4px 12px;
@@ -263,18 +269,30 @@
     .tag-vite { background: #646cff; }
     .tag-cf { background: #f38020; }
 
-    /* 趋势图表 */
+    /* 趋势图表区域 */
     .activity-chart {
       width: 100%;
       height: 150px;
       margin-top: 8px;
+      padding: 8px;
+      background: var(--stat-bg);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-sizing: border-box;
     }
 
     /* ========== 右侧栏 ========== */
     .intro-list {
       list-style: none;
-      padding: 0;
+      padding: 12px;
       margin: 0;
+      background: var(--stat-bg);
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .intro-list li {
       padding: 6px 0;
@@ -298,8 +316,8 @@
       text-decoration: none;
       color: inherit;
       display: block;
-      backdrop-filter: blur(9px);
-      -webkit-backdrop-filter: blur(9px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
     }
     .feature-item:hover {
       background: var(--item-hover-bg);
@@ -325,7 +343,7 @@
       color: var(--text-muted);
     }
 
-    /* 响应式：屏幕小于900px自动上下堆叠 */
+    /* 响应式：窄屏自动堆叠 */
     @media (max-width: 900px) {
       .home-layout {
         grid-template-columns: 1fr !important;
@@ -354,11 +372,11 @@
     </div>
   </header>
 
-  <!-- 主内容：左右双栏横向排列 -->
+  <!-- 主内容：左右双栏 -->
   <main class="main-wrap home-layout">
-    <!-- 左侧栏：站点信息 + 访问趋势 -->
+    <!-- 左侧栏 -->
     <aside class="left-sidebar">
-      <!-- 卡片1：站点信息 -->
+      <!-- 站点信息卡片 -->
       <div class="glass-card">
         <div class="profile-header">
           <img src="./assets/zhuyetu/touxiang.jpeg" alt="站点头像" class="profile-avatar">
@@ -389,7 +407,7 @@
         </div>
       </div>
 
-      <!-- 卡片2：访问趋势 -->
+      <!-- 访问趋势卡片 -->
       <div class="glass-card">
         <div class="card-title">访问趋势概览</div>
         <svg class="activity-chart" viewBox="0 0 300 150" preserveAspectRatio="none">
@@ -411,9 +429,9 @@
       </div>
     </aside>
 
-    <!-- 右侧栏：站点介绍 + 站点功能 -->
+    <!-- 右侧栏 -->
     <section class="right-content">
-      <!-- 卡片1：站点介绍 -->
+      <!-- 站点介绍卡片 -->
       <div class="glass-card">
         <div class="card-title">📋 站点介绍</div>
         <ul class="intro-list">
@@ -423,10 +441,10 @@
           <li>🖼️ 内置图片图库、链接收藏、站点说明等功能模块</li>
           <li>🎨 全站玻璃拟态风格，支持明暗双主题切换</li>
           <li>📦 零运维成本，代码推送自动部署上线</li>
-        </div>
+        </ul>
       </div>
 
-      <!-- 卡片2：站点功能 -->
+      <!-- 站点功能卡片 -->
       <div class="glass-card">
         <div class="card-title">📁 站点功能</div>
         <div class="feature-list">
