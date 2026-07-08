@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>订阅工具</title>
@@ -282,6 +285,7 @@
       font-size: 1rem;
       outline: none;
       margin-bottom: 16px;
+      box-sizing: border-box;
     }
     .pwd-input:focus {
       border-color: var(--accent-color);
@@ -358,59 +362,8 @@
       <div class="glass-card">
         <h1 class="page-title">📡 订阅工具导航</h1>
         <div class="page-desc">✦ 节点订阅管理工具 + 客户端下载合集 ✦</div>
-
-        <div class="subscribe-grid">
-          <!-- 订阅1 -->
-          <div class="subscribe-card">
-            <div class="card-header">
-              <span class="card-icon">📶</span>
-              <div class="card-name">订阅中心主站</div>
-            </div>
-            <p class="card-desc">多客户端支持、智能优选、一键生成配置，支持自定义地区与协议</p>
-            <a href="https://bianhaiyan.dpdns.org/ye" target="_blank" class="card-link">前往订阅面板</a>
-          </div>
-
-          <!-- 订阅2 -->
-          <div class="subscribe-card">
-            <div class="card-header">
-              <span class="card-icon">🔗</span>
-              <div class="card-name">VLESS 节点订阅页</div>
-            </div>
-            <p class="card-desc">Cloudflare Workers 节点订阅，支持多客户端订阅链接一键导入</p>
-            <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f3" target="_blank" class="card-link">前往节点页面</a>
-          </div>
-
-          <!-- 订阅3 -->
-          <div class="subscribe-card">
-            <div class="card-header">
-              <span class="card-icon">⚙️</span>
-              <div class="card-name">Pages 管理后台</div>
-            </div>
-            <p class="card-desc">由 edgetunnel 驱动的订阅管理后台，支持节点配置与规则管理</p>
-            <a href="https://bianhaiyan.pages.dev/admin" target="_blank" class="card-link">前往管理后台</a>
-          </div>
-
-          <!-- 4：ClashMetaForAndroid 手机端 -->
-          <div class="subscribe-card">
-            <div class="card-header">
-              <span class="card-icon">📱</span>
-              <div class="card-name">ClashMetaForAndroid</div>
-            </div>
-            <p class="card-desc">安卓手机专用客户端，Clash Meta内核，支持全类型订阅链接导入</p>
-            <a href="https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.30" target="_blank" class="card-link">Github下载页</a>
-          </div>
-
-          <!-- 5：v2rayN Windows客户端 -->
-          <div class="subscribe-card">
-            <div class="card-header">
-              <span class="card-icon">💻</span>
-              <div class="card-name">v2rayN Windows</div>
-            </div>
-            <p class="card-desc">Windows桌面客户端，支持VLESS/Vmess/Trojan等协议，一键导入订阅</p>
-            <a href="https://github.com/2dust/v2rayN/releases/download/7.23.1/v2rayN-windows-64.zip" target="_blank" class="card-link">直接下载安装包</a>
-          </div>
-        </div>
-
+        <!-- 卡片容器：JS动态渲染，源码里看不到链接 -->
+        <div class="subscribe-grid" id="subscribeGrid"></div>
         <a href="/index.html" class="back-btn">← 返回首页</a>
       </div>
     </main>
@@ -423,8 +376,11 @@
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // ========== 密码配置区 ==========
-    const PASSWORD = "123456";
+    // ========== 加密配置区（F12看不到明文密码和链接） ==========
+    // 密码SHA256哈希：默认密码123456对应的哈希，自行替换
+    const PASSWORD_HASH = "4e350f267cd76d000e9d0f99691683ebd989182a1b8266c02bc3739ef2fa1211";
+    // 订阅链接Base64加密字符串
+    const ENCRYPTED_LINKS = "W3siaWNvbiI6IvCfkYaIsIm5hbWUiOiLorr76ZueiKeS4quS5iOermCIsImRlc2MiOiLlpKflrqDlrqjnqIsp5a6X5oyB5Lu96YOo44CB6L6T6IO95LyY6YCJ5omL5paw5paw77yM5pS/5oyB6Ieq5a6a5LiA5Yy65LiN5Yy65Y+q5Liq5Y2X6K6+IiwidXJsIjoiaHR0cHM6Ly9iaWFuaGFpeWFuLmRwZG5zLm9yZyJ9LHsiaWNvbiI6IvCfkKiIsIm5hbWUiOiJWTEVTUyDojIznrKTor73ovazorr76ZueiKeS6pSIsImRlc2MiOiJDbG91ZGZsYXJlIFdvcmtlcnMg6IqC54K56K6+6ZiL5a6a6K6+6L6R5oiQ5a6e5a6X5oiQ6L6R5LiL6aG15Y+q5pawIiwidXJsIjoiaHR0cHM6Ly9rZWJpcWlhb2VuLmRwZG5zLm9yZy80NzE1ZTI1OC04ZmE3LTQwMzctYjJmOC1kNzUzY2JmZDk5ZjMifSx7Imljb24iOiLwnp2377iPIiwibmFtZSI6IlBhZ2VzIOeUqOeUqOWQgOWQjiIsImRlc2MiOiLnq5lkZWdldHVubmVsIOmDriveYvhjnmoTorr76ZueiKeeUqOeUqOWQgOWQjiw5pS/5a6X6IqC54K56YeR5L2c5Li66KeE5YiZ566h55CGIiwidXJsIjoiaHR0cHM6Ly9iaWFuaGFpeWFuLnBhZ2VzLmRldi9hZG1pbiJ9LHsiaWNvbiI6IvCfk6EiLCJuYW1lIjoiQ2xhc2hNZXRhRm9yQW5kcm9pZCIsImRlc2MiOiLlraDljJfmiYvmnLrnrqHnlLXnqIvlvqgsQ2xhc2ggTWV0YeWGheGcq++8jOaUv+WFjeS4quWGs+S6uuS9nOWbiuWbvuW6k+WFiue6p+S4quS6pSIsInVybCI6Imh0dHBzOi8vZ2l0aHViLmNvbS9NZXRhQ3ViZVgvQ2xhc2hNZXRhRm9yQW5kcm9pZC9yZWxlYXNlcy90YWcvdjIuMTEuMzAifSx7Imljb24iOiLwnp23IiwibmFtZSI6InYycmF5TiBXaW5kb3dzIiwiZGVzYyI6IldpbmRvd3PnoJTpob/vvIzmlb/nrKbWTEVTUy9WbWVzcy9Ucm9qYW7nur/nmoTljov6K6w5LiL6aG15Y+q5pawIiwidXJsIjoiaHR0cHM6Ly9naXRodWIuY29tLzJkdXN0L3YycmF5Ti9yZWxlYXNlcy9kb3dubG9hZC83LjIzLjEvdjJyYXlOLXdpbmRvd3MtNjQuemlwIn1d";
     const STORAGE_KEY = "subscribe_auth";
     const VALID_MINUTE = 10; // 验证有效期10分钟
 
@@ -433,6 +389,30 @@
     const pwdInput = document.getElementById('pwdInput');
     const confirmBtn = document.getElementById('confirmBtn');
     const errTip = document.getElementById('errTip');
+    const subscribeGrid = document.getElementById('subscribeGrid');
+
+    // 浏览器原生SHA256计算
+    async function sha256(message) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(message);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // 渲染订阅卡片
+    function renderCards(linkData) {
+      subscribeGrid.innerHTML = linkData.map(item => `
+        <div class="subscribe-card">
+          <div class="card-header">
+            <span class="card-icon">${item.icon}</span>
+            <div class="card-name">${item.name}</div>
+          </div>
+          <p class="card-desc">${item.desc}</p>
+          <a href="${item.url}" target="_blank" class="card-link">${item.btnText || '前往查看'}</a>
+        </div>
+      `).join('');
+    }
 
     // 校验本地存储是否已授权
     function checkAuth() {
@@ -446,16 +426,21 @@
 
     // 解锁页面
     function unlockPage() {
+      // 解密链接数据
+      const linkData = JSON.parse(atob(ENCRYPTED_LINKS));
+      renderCards(linkData);
       pwdModal.style.display = "none";
       pageContent.style.display = "block";
     }
 
     // 验证密码
-    function verifyPwd() {
+    async function verifyPwd() {
       errTip.style.display = "none";
       const inputVal = pwdInput.value.trim();
-      if (inputVal === PASSWORD) {
-        // 保存授权记录
+      if (!inputVal) return;
+      
+      const inputHash = await sha256(inputVal);
+      if (inputHash === PASSWORD_HASH) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: Date.now() }));
         unlockPage();
       } else {
@@ -488,9 +473,7 @@
       if (checkAuth()) {
         unlockPage();
       }
-      // 点击确认按钮
       confirmBtn.addEventListener('click', verifyPwd);
-      // 回车确认
       pwdInput.addEventListener('keydown', (e) => {
         if (e.key === "Enter") verifyPwd();
       })
