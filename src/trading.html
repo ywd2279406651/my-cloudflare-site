@@ -104,7 +104,7 @@ body::before { content: ''; position: fixed; inset: 0; background: var(--bg-mask
 .back-top { display: inline-block; margin-top: 18px; padding: 9px 18px; border: 1px solid var(--card-border); border-radius: 10px; color: var(--text-secondary); text-decoration: none; transition: all .2s; }
 .back-top:hover { background: var(--item-hover-bg); color: var(--text-primary); }
 .footer { text-align: center; color: var(--text-muted); padding: 26px; font-size: .85rem; }
-/* ===== 响应式：平板（<=900px）===== */
+/* ===== 响应式：平板（&lt;=900px）===== */
 @media (max-width: 900px){
   .manual-layout { grid-template-columns: minmax(0, 1fr); gap: 16px; }
   .toc-card { position: static !important; max-height: none; padding: 14px 16px; }
@@ -115,7 +115,7 @@ body::before { content: ''; position: fixed; inset: 0; background: var(--bg-mask
   .chapter h2 { font-size: 1.15rem; margin: 22px 0 10px; }
   .chapter h3 { font-size: 1rem; }
 }
-/* ===== 响应式：手机（<=640px）按阅读最佳实践：正文16px、触控44px ===== */
+/* ===== 响应式：手机（&lt;=640px）按阅读最佳实践：正文16px、触控44px ===== */
 @media (max-width: 640px){
   .nav-container { flex-wrap: nowrap !important; height: auto !important; min-height: 58px; padding: 8px 12px !important; gap: 8px !important; }
   .nav-logo { font-size: .95rem !important; white-space: nowrap; flex-shrink: 0; }
@@ -1056,7 +1056,7 @@ CHoCH:     Change of Character——趋势的第一次反向破坏
 </ol>
 <details><summary>参考答案</summary>
 
-1. 收盘 29,800 < 开盘 30,000 → **绿**（空胜）。影线：上影 500（30500-30000）、下影 300（30000-29500）→ 上影长。说明多头冲高被空头打回，**空方占优**。
+1. 收盘 29,800 &lt; 开盘 30,000 → **绿**（空胜）。影线：上影 500（30500-30000）、下影 300（30000-29500）→ 上影长。说明多头冲高被空头打回，**空方占优**。
 2. 该想"我可能买在了流动性池里"。冲到 30,600 收盘是**假突破**（没能站稳），跌回 30,000 下方 = 突破失败 → 上方 30,600 附近的多头止损/追多单就是被扫的流动性。正确动作是**按计划止损**（如果你没设止损，这就是第一课）。
 3. 因为支撑位下方是**多头止损池**：价格跌破支撑会触发批量止损卖单 = 一次性供给；如果价格还能快速收回，说明这批供给被接住了 → 供需反转的强证据。在半山腰，锤子线两边都没有止损单，没有"燃料"可扫，也就没有反转的力学基础。
 
@@ -1184,7 +1184,7 @@ CHoCH:     Change of Character——趋势的第一次反向破坏
 <details><summary>参考答案</summary>
 
 1. 金叉是"过去 12/26 根均线收敛后再发散"的结果——它确认的是**已经发生的**上涨。震荡市里价格上下反复，每次金叉时上涨动能已经用尽，你买在局部高点；死叉时跌势已尽，你卖在局部低点。指标描述的过去 ≠ 未来的延续。
-2. 止损 0.3% < ATR 0.5% = 止损比正常波动还窄 → 大概率被随机噪音扫掉（即使方向看对）。应把止损放到 ≥0.75-1.0%（1.5-2×ATR），同时**缩小仓位**（止损变宽，仓位按 04 章公式相应减小）。
+2. 止损 0.3% &lt; ATR 0.5% = 止损比正常波动还窄 → 大概率被随机噪音扫掉（即使方向看对）。应把止损放到 ≥0.75-1.0%（1.5-2×ATR），同时**缩小仓位**（止损变宽，仓位按 04 章公式相应减小）。
 3. 不会。RSI>70 + 新高 + 趋势完好 = 强趋势的正常状态（RSI 可以长期高位）；此时做空是逆势猜顶。RSI 的"超买"只在**背离**（新高但 RSI 不新高）或**结构反转**出现时才值得警惕。
 
 </details>
