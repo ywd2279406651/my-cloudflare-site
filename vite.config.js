@@ -13,7 +13,8 @@ export default defineConfig({
         links: resolve(__dirname, 'src/links.html'),
         gallery: resolve(__dirname, 'src/gallery.html'),
         about: resolve(__dirname, 'src/about.html'),
-        subscribe: resolve(__dirname, 'src/subscribe.html')
+        subscribe: resolve(__dirname, 'src/subscribe.html'),
+        trading: resolve(__dirname, 'src/trading.html')
       },
       output: {
         entryFileNames: `assets/js/[name]-[hash]-${buildTime}.js`,
