@@ -1,9 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>订阅工具</title>
@@ -285,7 +282,6 @@
       font-size: 1rem;
       outline: none;
       margin-bottom: 16px;
-      box-sizing: border-box;
     }
     .pwd-input:focus {
       border-color: var(--accent-color);
@@ -302,11 +298,7 @@
       cursor: pointer;
       transition: 0.2s;
     }
-    .modal-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    .modal-btn:hover:not(:disabled) {
+    .modal-btn:hover {
       filter: brightness(1.1);
     }
     .tip-text {
@@ -354,6 +346,7 @@
           <a href="/about.html">关于</a>
           <a href="/links.html">链接收藏</a>
           <a href="/gallery.html">图库</a>
+          <a href="/trading.html">交易学习</a>
           <a href="/subscribe.html" class="active">订阅工具</a>
           <a href="/api/hello">API 测试</a>
         </nav>
@@ -366,8 +359,59 @@
       <div class="glass-card">
         <h1 class="page-title">📡 订阅工具导航</h1>
         <div class="page-desc">✦ 节点订阅管理工具 + 客户端下载合集 ✦</div>
-        <!-- 卡片容器：后端返回数据后动态渲染 -->
-        <div class="subscribe-grid" id="subscribeGrid"></div>
+
+        <div class="subscribe-grid">
+          <!-- 订阅1 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">📶</span>
+              <div class="card-name">订阅中心主站</div>
+            </div>
+            <p class="card-desc">多客户端支持、智能优选、一键生成配置，支持自定义地区与协议</p>
+            <a href="https://bianhaiyan.dpdns.org/ye" target="_blank" class="card-link">前往订阅面板</a>
+          </div>
+
+          <!-- 订阅2 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">🔗</span>
+              <div class="card-name">VLESS 节点订阅页</div>
+            </div>
+            <p class="card-desc">Cloudflare Workers 节点订阅，支持多客户端订阅链接一键导入</p>
+            <a href="https://kebiqiaoen.dpdns.org/4715e258-8fa7-4037-b2f8-d753cbfd99f3" target="_blank" class="card-link">前往节点页面</a>
+          </div>
+
+          <!-- 订阅3 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">⚙️</span>
+              <div class="card-name">Pages 管理后台</div>
+            </div>
+            <p class="card-desc">由 edgetunnel 驱动的订阅管理后台，支持节点配置与规则管理</p>
+            <a href="https://bianhaiyan.pages.dev/admin" target="_blank" class="card-link">前往管理后台</a>
+          </div>
+
+          <!-- 4：ClashMetaForAndroid 手机端 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">📱</span>
+              <div class="card-name">ClashMetaForAndroid</div>
+            </div>
+            <p class="card-desc">安卓手机专用客户端，Clash Meta内核，支持全类型订阅链接导入</p>
+            <a href="https://github.com/MetaCubeX/ClashMetaForAndroid/releases/tag/v2.11.30" target="_blank" class="card-link">Github下载页</a>
+          </div>
+
+          <!-- 5：v2rayN Windows客户端 -->
+          <div class="subscribe-card">
+            <div class="card-header">
+              <span class="card-icon">💻</span>
+              <div class="card-name">v2rayN Windows</div>
+            </div>
+            <p class="card-desc">Windows桌面客户端，支持VLESS/Vmess/Trojan等协议，一键导入订阅</p>
+            <a href="https://github.com/2dust/v2rayN/releases/download/7.23.1/v2rayN-windows-64.zip" target="_blank" class="card-link">直接下载安装包</a>
+          </div>
+        </div>
+
         <a href="/index.html" class="back-btn">← 返回首页</a>
       </div>
     </main>
@@ -380,8 +424,8 @@
 
   <script type="module" src="./js/main.js"></script>
   <script>
-    // ========== 配置 ==========
-    const API_URL = "/api/subscribe-data";
+    // ========== 密码配置区 ==========
+    const PASSWORD = "kskblzdjd";
     const STORAGE_KEY = "subscribe_auth";
     const VALID_MINUTE = 10; // 验证有效期10分钟
 
@@ -390,86 +434,39 @@
     const pwdInput = document.getElementById('pwdInput');
     const confirmBtn = document.getElementById('confirmBtn');
     const errTip = document.getElementById('errTip');
-    const subscribeGrid = document.getElementById('subscribeGrid');
 
-    // 渲染订阅卡片
-    function renderCards(linkData) {
-      subscribeGrid.innerHTML = linkData.map(item => `
-        <div class="subscribe-card">
-          <div class="card-header">
-            <span class="card-icon">${item.icon}</span>
-            <div class="card-name">${item.name}</div>
-          </div>
-          <p class="card-desc">${item.desc}</p>
-          <a href="${item.url}" target="_blank" class="card-link">${item.btnText || '前往查看'}</a>
-        </div>
-      `).join('');
-    }
-
-    // 校验本地缓存是否有效
-    function checkLocalAuth() {
+    // 校验本地存储是否已授权
+    function checkAuth() {
       const authStr = localStorage.getItem(STORAGE_KEY);
-      if (!authStr) return null;
-      try {
-        const authData = JSON.parse(authStr);
-        const now = Date.now();
-        const expire = authData.time + VALID_MINUTE * 60 * 1000;
-        // 时间没过期，且有缓存数据
-        if (now < expire && authData.data && Array.isArray(authData.data)) {
-          return authData.data;
-        }
-        return null;
-      } catch (e) {
-        return null;
-      }
+      if (!authStr) return false;
+      const authData = JSON.parse(authStr);
+      const now = Date.now();
+      const expire = authData.time + VALID_MINUTE * 60 * 1000;
+      return now < expire;
     }
 
     // 解锁页面
-    function unlockPage(data) {
-      renderCards(data);
+    function unlockPage() {
       pwdModal.style.display = "none";
       pageContent.style.display = "block";
     }
 
-    // 请求后端验证密码
-    async function verifyPassword() {
-      const inputVal = pwdInput.value.trim();
-      if (!inputVal) return;
-
+    // 验证密码
+    function verifyPwd() {
       errTip.style.display = "none";
-      confirmBtn.disabled = true;
-      confirmBtn.textContent = "验证中...";
-
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password: inputVal })
-        });
-
-        if (res.ok) {
-          const result = await res.json();
-          // 验证成功，缓存到本地
-          localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            time: Date.now(),
-            data: result.data
-          }));
-          unlockPage(result.data);
-        } else {
-          errTip.style.display = "block";
-          pwdInput.value = "";
-          pwdInput.focus();
-        }
-      } catch (e) {
-        errTip.textContent = "网络异常，请稍后重试";
+      const inputVal = pwdInput.value.trim();
+      if (inputVal === PASSWORD) {
+        // 保存授权记录
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: Date.now() }));
+        unlockPage();
+      } else {
         errTip.style.display = "block";
-      } finally {
-        confirmBtn.disabled = false;
-        confirmBtn.textContent = "确认解锁";
+        pwdInput.value = "";
+        pwdInput.focus();
       }
     }
 
-    // 页面加载初始化
+    // 页面加载判断权限
     window.addEventListener('DOMContentLoaded', () => {
       // 主题切换逻辑
       const themeToggle = document.getElementById('themeToggle');
@@ -488,19 +485,17 @@
         localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
       });
 
-      // 检查本地缓存
-      const cachedData = checkLocalAuth();
-      if (cachedData) {
-        // 缓存有效，直接解锁
-        unlockPage(cachedData);
+      // 密码验证逻辑
+      if (checkAuth()) {
+        unlockPage();
       }
-
-      // 绑定验证事件
-      confirmBtn.addEventListener('click', verifyPassword);
+      // 点击确认按钮
+      confirmBtn.addEventListener('click', verifyPwd);
+      // 回车确认
       pwdInput.addEventListener('keydown', (e) => {
-        if (e.key === "Enter") verifyPassword();
-      });
-    });
+        if (e.key === "Enter") verifyPwd();
+      })
+    })
   </script>
 </body>
 </html>
